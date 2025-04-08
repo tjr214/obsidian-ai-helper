@@ -8,7 +8,7 @@ The Obsidian AI Helper plugin is an agentic plugin that:
 
 -   Helps you interact with your vault and its files using AI
 -   Provides smart assistance for various tasks in your Obsidian workflow
--   Uses modern React-based UI components for a beautiful experience
+-   Uses modern React-based UI components (in Strict mode) for a beautiful experience
 -   Features a dedicated sidebar view for quick access to AI helper functions
 
 ### Sidebar View
@@ -31,7 +31,7 @@ This plugin is currently under active development. Features and documentation wi
 
 ## Development Setup
 
-This project uses TypeScript and React to provide a modern development experience:
+This project uses TypeScript and React (in Strict mode) to provide a modern development experience:
 
 -   Clone this repository to your local machine
 -   Make sure you have NodeJS v16 or later installed
@@ -45,6 +45,39 @@ For convenience during development, you can clone this repo directly into your `
 -   TypeScript for type safety and better code organization
 -   React (in Strict mode) for building UI components
 -   Clean architecture with well-documented code
+
+### Project Directory Layout
+
+```
+obsidian-ai-helper/
+├── 📄 main.ts                  # Main plugin entry point
+├── 📄 manifest.json            # Plugin manifest
+├── 📄 package.json             # Dependencies and scripts
+├── 📄 README.md                # Project documentation
+├── 📄 styles.css               # Plugin styles
+├── 📄 ReactView.tsx            # Example React component
+├── 📄 versions.json            # Version tracking
+├── 📄 version-bump.mjs         # Version bump script
+├── 📄 .eslintrc                # ESLint configuration
+├── 📄 LICENSE                  # Apache 2.0 license
+│
+├── 📁 src/                     # Source code directory
+│   ├── 📁 views/               # React views for Obsidian
+│   │   └── 📄 AIHelperView.tsx # Main sidebar view
+│   │
+│   ├── 📁 components/          # React components
+│   │   └── 📄 AIHelperComponent.tsx # Main React component
+│   │
+│   ├── 📁 hooks/               # Custom React hooks
+│   │   └── 📄 useApp.ts        # Hook for accessing Obsidian App
+│   │
+│   └── 📁 context/             # React contexts
+│       └── 📄 AppContext.ts    # Context for Obsidian App object
+│
+├── 📁 tasks/                   # Project planning and tasks
+│
+└── 📁 .cursor/                 # Cursor IDE configuration
+```
 
 ## Installation
 
@@ -72,6 +105,11 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 2. Create a feature branch
 3. Make your changes
 4. Submit a pull request
+
+## Documentation Resources
+
+-   [Official Obsidian Documentation](https://docs.obsidian.md/) - Reference for Obsidian API and plugin development
+-   For more details on developing with React in Obsidian, see the plugin's source code and comments
 
 ## License
 
