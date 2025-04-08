@@ -21,7 +21,7 @@ We are working with Typescript and React.
 - As we work, read and maintain the `README.md` file.
 - Also, always follow the additional instructions given in the "Planning" Section, below.
 
-- Always refer to the latest Obsidain docs, found at: @https://docs.obsidian.md/
+- Always refer to the latest Obsidain docs, found at: https://docs.obsidian.md/
 
 - When working with libraries and packages, always use the latest version (do not pin versions) of the library.
 - When working with libraries and packages, always use the search_tool to get the latest documentation.
@@ -49,3 +49,64 @@ For each feature we are implementing:
   - Read and continuously update this file as we work.
 
 ---
+
+# Using React in Obsidian Plugins
+
+## Create a React Component
+
+This is an example of creating a React Component. It needs to be stored in the project root.
+
+```tsx
+export const ReactView = () => {
+  return <h4>Hello, React!</h4>;
+};
+```
+
+## Mount / Unmount the React Component
+
+To use the React component, it needs to be mounted on HTML elements. The following example mounts the ReactView component on the this.containerEl.children[1] element:
+
+```tsx
+import { StrictMode } from 'react';
+import { ItemView, WorkspaceLeaf } from 'obsidian';
+import { Root, createRoot } from 'react-dom/client';
+import { ReactView } from './ReactView';
+
+const VIEW_TYPE_EXAMPLE = 'example-view';
+
+class ExampleView extends ItemView {
+	root: Root | null = null;
+
+	constructor(leaf: WorkspaceLeaf) {
+		super(leaf);
+	}
+
+	getViewType() {
+		return VIEW_TYPE_EXAMPLE;
+	}
+
+	getDisplayText() {
+		return 'Example view';
+	}
+
+	async onOpen() {
+		this.root = createRoot(this.containerEl.children[1]);
+		this.root.render(
+			<StrictMode>
+				<ReactView />,
+			</StrictMode>,
+		);
+	}
+
+	async onClose() {
+		this.root?.unmount();
+	}
+}
+```
+
+For more information on createRoot and unmount(), refer to the documentation on ReactDOM (https://react.dev/reference/react-dom/client/createRoot#root-render).
+
+You can mount your React component on any HTMLElement, for example status bar items. Just make sure to clean up properly by calling this.root.unmount() when you're done.
+
+---
+
