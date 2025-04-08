@@ -46,7 +46,7 @@ This task involves creating a React-based view that appears in Obsidian's right 
 
 ## Progress Notes
 
-### April 8, 2023
+### Update 1
 
 -   Created the project structure with necessary directories
 -   Implemented the App Context and useApp hook for React components to access Obsidian's App object
