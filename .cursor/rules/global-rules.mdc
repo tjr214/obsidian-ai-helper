@@ -13,7 +13,7 @@ Hello, Claude! Let's work on developing, building and shipping and Obsidian Plug
 
 Our project is an Obsidian Plugin called `Obsidian AI Helper`. It is an agentic plugin that works with the user's Vault and its files.
 
-We are working with Typescript and React.
+We are working with Typescript and React (in Strict mode).
 
 - Always use types.
 - Always fully comment and explain our code.
