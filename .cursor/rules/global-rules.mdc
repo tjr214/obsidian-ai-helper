@@ -17,6 +17,7 @@ We are working with Typescript and React.
 
 - Always use types.
 - Always fully comment and explain our code.
+- See the section "Using React in Obsidian Plugins", below, for additional instructions related to React.
 
 - As we work, read and maintain the `README.md` file.
 - Also, always follow the additional instructions given in the "Planning" Section, below.
