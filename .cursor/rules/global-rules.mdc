@@ -174,12 +174,9 @@ obsidian-ai-helper/
 ├── 📄 README.md                # Project documentation
 ├── 📄 styles.css               # Plugin styles
 ├── 📄 ReactView.tsx            # Example React component
-├── 📄 tsconfig.json            # TypeScript configuration
-├── 📄 esbuild.config.mjs       # Build configuration
 ├── 📄 versions.json            # Version tracking
 ├── 📄 version-bump.mjs         # Version bump script
 ├── 📄 .eslintrc                # ESLint configuration
-├── 📄 .gitignore               # Git ignore rules
 ├── 📄 LICENSE                  # Apache 2.0 license
 │
 ├── 📁 src/                     # Source code directory
@@ -195,10 +192,8 @@ obsidian-ai-helper/
 │   └── 📁 context/             # React contexts
 │       └── 📄 AppContext.ts    # Context for Obsidian App object
 │
-├── 📁 tasks/                   # Project planning and tasks
-│   └── 📄 react-sidebar-view-implementation-progress.md # Implementation tracking
+├── 📁 tasks/                   # Project planning and tasks (stored as markdown files)
 │
-├── 📁 node_modules/            # Dependencies (not tracked in git)
 └── 📁 .cursor/                 # Cursor IDE configuration
 
 ---
