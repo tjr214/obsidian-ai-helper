@@ -7,7 +7,7 @@
 
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import { AIHelperComponent } from "../components/AIHelperComponent";
 import { AppContext } from "../context/AppContext";
 
