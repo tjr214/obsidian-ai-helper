@@ -19,6 +19,7 @@ We are working with Typescript and React (in Strict mode).
 - Always use types.
 - Always fully comment and explain our code.
 - See the section "Using React in Obsidian Plugins", below, for additional instructions related to React.
+- If we are building a component that needs access to the Obsidian `App` object, please see the section "Additional React Instructions Specific to Components Needing App Access" for detailed instructions.
 
 - As we work, read and maintain the `README.md` file.
 - Also, always follow the additional instructions given in the "Planning" Section, below.
@@ -112,3 +113,53 @@ You can mount your React component on any HTMLElement, for example status bar it
 
 ---
 
+# Additional React Instructions Specific to Components Needing App Access
+
+## Create And Use an Obsidian App Context
+
+If you want to access the App object from one of your React components, you need to create a React context for the app to make it globally available to all components inside your React view.
+
+1) Use `createContext()` to create a new app context.
+
+```tsx
+import { createContext } from 'react';
+import { App } from 'obsidian';
+
+export const AppContext = createContext<App | undefined>(undefined);
+```
+
+2) Wrap the `ReactView` with a context provider and pass the app as the value.
+
+```tsx
+this.root = createRoot(this.containerEl.children[1]);
+this.root.render(
+  <AppContext.Provider value={this.app}>
+    <ReactView />
+  </AppContext.Provider>
+);
+```
+
+3) Create a custom hook to make it easier to use the context in your components.
+
+```tsx
+import { useContext } from 'react';
+import { AppContext } from './context';
+
+export const useApp = (): App | undefined => {
+  return useContext(AppContext);
+};
+```
+
+4) Use the hook in any React component within `ReactView` to access the app.
+
+```tsx
+import { useApp } from './hooks';
+
+export const ReactView = () => {
+  const { vault } = useApp();
+
+  return <h4>{vault.getName()}</h4>;
+};
+```
+
+---
