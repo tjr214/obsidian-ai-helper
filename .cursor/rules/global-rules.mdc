@@ -41,6 +41,11 @@ IMPORTANT! Never under any circumstances change things or add new features witho
 - Take your time and always think things through.
 - Form a plan in your head before acting. You can share that plan with me.
 
-For each feature we are implementing, create a plan and save it as a markdown file with tasks that we can update and checkoff as we make progress on the project. Also include implementation details and anything else we would need to restart work from where we last left off.
+For each feature we are implementing:
+
+  - Create a plan and save it as a markdown file with tasks that we can update and checkoff as we make progress on the project.
+  - Also include implementation details and anything else we would need to restart work from where we last left off.
+  - Save the markdown file in the `tasks/` directory with a name similar to: `thing-we-are-implementing-progress.md`.
+  - Read and continuously update this file as we work.
 
 ---
