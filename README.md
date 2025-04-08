@@ -90,7 +90,20 @@ _(Once published)_
 3. Search for "AI Helper"
 4. Click Install, then Enable
 
-### Manual Installation
+### Installation via Git Clone
+
+1. Open a terminal or command prompt
+2. Navigate to your vault's `.obsidian/plugins/` directory
+3. Run the following command:
+    ```bash
+    git clone https://github.com/tjr214/obsidian-ai-helper.git
+    ```
+4. Restart Obsidian
+5. Enable the plugin in Settings > Community plugins
+
+This method is especially useful for developers who want to stay up-to-date with the latest changes or contribute to the project.
+
+### Manual Installation via Releases
 
 1. Download the latest release from the Releases section
 2. Extract the files into your vault's `.obsidian/plugins/obsidian-ai-helper/` directory
