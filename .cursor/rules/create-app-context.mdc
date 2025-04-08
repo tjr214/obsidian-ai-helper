@@ -1,7 +1,7 @@
 ---
 description: Rules that apply to React Components that need to access the Obsidian `App` object.
 globs: *.tsx
-alwaysApply: false
+alwaysApply: true
 ---
 # Additional React Instructions Specific to Components Needing App Access
 
