@@ -41,6 +41,14 @@ export class AIHelperView extends ItemView {
 	}
 
 	/**
+	 * Returns the icon name to be displayed in the sidebar.
+	 * Using the same "brain" icon as in the ribbon.
+	 */
+	getIcon(): string {
+		return "brain";
+	}
+
+	/**
 	 * Gets called when the view is opened.
 	 * Creates and mounts the React component.
 	 */
