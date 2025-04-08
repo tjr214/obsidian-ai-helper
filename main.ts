@@ -8,6 +8,7 @@ import {
 	PluginSettingTab,
 	Setting,
 } from "obsidian";
+import { AIHelperView, AI_HELPER_VIEW_TYPE } from "./src/views/AIHelperView";
 
 // Remember to rename these classes and interfaces!
 
@@ -25,13 +26,19 @@ export default class ObsidainAIPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
+		// Register the AI Helper view
+		this.registerView(
+			AI_HELPER_VIEW_TYPE,
+			(leaf) => new AIHelperView(leaf)
+		);
+
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon(
-			"dice",
-			"AI Agent Sample Notice",
+			"brain", // Using a more appropriate icon
+			"Open AI Helper View",
 			(evt: MouseEvent) => {
-				// Called when the user clicks the icon.
-				new Notice("This is a notice, friend!");
+				// Activate the AI Helper view in the right sidebar
+				this.activateView();
 			}
 		);
 		// Perform additional things with the ribbon
@@ -39,7 +46,7 @@ export default class ObsidainAIPlugin extends Plugin {
 
 		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
 		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText("Status Bar Text");
+		statusBarItemEl.setText("AI Helper Ready");
 
 		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
@@ -79,6 +86,15 @@ export default class ObsidainAIPlugin extends Plugin {
 			},
 		});
 
+		// Add a command to toggle the AI Helper view
+		this.addCommand({
+			id: "toggle-ai-helper-view",
+			name: "Toggle AI Helper View",
+			callback: () => {
+				this.activateView();
+			},
+		});
+
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new SampleSettingTab(this.app, this));
 
@@ -94,7 +110,42 @@ export default class ObsidainAIPlugin extends Plugin {
 		);
 	}
 
-	onunload() {}
+	/**
+	 * Method to activate the AI Helper view in the right sidebar.
+	 * If the view is already open, it will just reveal it.
+	 * Otherwise, it will create a new leaf in the right sidebar.
+	 */
+	async activateView() {
+		// If the view is already open, don't open another one
+		const existingLeaves =
+			this.app.workspace.getLeavesOfType(AI_HELPER_VIEW_TYPE);
+		if (existingLeaves.length > 0) {
+			// Reveal the existing leaf
+			this.app.workspace.revealLeaf(existingLeaves[0]);
+			return;
+		}
+
+		// Open a new leaf in the right sidebar
+		const leaf = this.app.workspace.getRightLeaf(false);
+		if (leaf) {
+			await leaf.setViewState({
+				type: AI_HELPER_VIEW_TYPE,
+				active: true,
+			});
+
+			// Reveal the newly created leaf
+			const leaves =
+				this.app.workspace.getLeavesOfType(AI_HELPER_VIEW_TYPE);
+			if (leaves.length > 0) {
+				this.app.workspace.revealLeaf(leaves[0]);
+			}
+		}
+	}
+
+	onunload() {
+		// Clean up by detaching views
+		this.app.workspace.detachLeavesOfType(AI_HELPER_VIEW_TYPE);
+	}
 
 	async loadSettings() {
 		this.settings = Object.assign(

@@ -9,6 +9,21 @@ The Obsidian AI Helper plugin is an agentic plugin that:
 -   Helps you interact with your vault and its files using AI
 -   Provides smart assistance for various tasks in your Obsidian workflow
 -   Uses modern React-based UI components for a beautiful experience
+-   Features a dedicated sidebar view for quick access to AI helper functions
+
+### Sidebar View
+
+The plugin adds a dedicated view to Obsidian's right sidebar:
+
+-   Access vault information at a glance
+-   Quick actions for common AI assistance tasks
+-   Modern UI built with React
+-   Seamless integration with Obsidian's look and feel
+
+You can open the sidebar view in two ways:
+
+1. Click the brain icon in the left ribbon
+2. Use the command palette and search for "Toggle AI Helper View"
 
 ## Project Status
 

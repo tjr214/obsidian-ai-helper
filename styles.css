@@ -6,3 +6,69 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+
+/* General Styles */
+body {
+	--font-ui-smaller: 12px;
+	--font-ui-small: 14px;
+	--font-ui-medium: 16px;
+	--font-ui-large: 20px;
+}
+
+/* AI Helper View Styles */
+.ai-helper-container {
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.ai-helper-title {
+	margin: 0 0 16px 0;
+	font-size: var(--font-ui-large);
+	font-weight: 600;
+	color: var(--text-normal);
+}
+
+.ai-helper-info {
+	margin-bottom: 16px;
+	border-radius: 4px;
+	background-color: var(--background-secondary);
+	padding: 12px;
+}
+
+.ai-helper-info-item {
+	margin-bottom: 8px;
+	font-size: var(--font-ui-small);
+}
+
+.ai-helper-info-item:last-child {
+	margin-bottom: 0;
+}
+
+.ai-helper-controls {
+	margin-bottom: 16px;
+}
+
+.ai-helper-button {
+	background-color: var(--interactive-normal);
+	color: var(--text-normal);
+	border: none;
+	border-radius: 4px;
+	padding: 8px 12px;
+	font-size: var(--font-ui-small);
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.ai-helper-button:hover {
+	background-color: var(--interactive-hover);
+}
+
+.ai-helper-expanded {
+	background-color: var(--background-secondary);
+	border-radius: 4px;
+	padding: 12px;
+	margin-top: 8px;
+	font-size: var(--font-ui-small);
+}
