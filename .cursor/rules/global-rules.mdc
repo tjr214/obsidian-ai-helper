@@ -5,18 +5,27 @@ alwaysApply: true
 ---
 # Greetings
 
-Hello, Claude! Let;s work on something interesting together, as a Team!
+Hello, Claude! Let;s work on developing, building and shipping and Obsidian Plugin, as a Team!
 
 ---
 
 # Instructions
 
+Our project is an Obsidian Plugin called `Obsidian AI Helper`. It is an agentic plugin that works with the user's Vault and its files.
+
 We are working with Typescript.
 
 - Always use types.
-- Always comment and explain our code.
+- Always fully comment and explain our code.
+
+- As we work, read and maintain the `README.md` file.
+- Also, always follow the additional instructions given in the "Planning" Section, below.
+
+- Always refer to the latest Obsidain docs, found at: @https://docs.obsidian.md/
+
 - When working with libraries and packages, always use the latest version (do not pin versions) of the library.
 - When working with libraries and packages, always use the search_tool to get the latest documentation.
+
 - Use your search and read tools to see our codebase and view any files you need to.
 
 Before beginning any coding work, and at the start of any conversation, make sure we are on the same page. Ask me any questions you need to.
