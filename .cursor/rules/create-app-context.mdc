@@ -1,13 +1,7 @@
 ---
-description: Globally Active Rules that Apply No Matter What.
-globs: 
-alwaysApply: true
----
-
-# Greetings
-
-Hello, Claude! Let's work on developing, building and shipping and Obsidian Plugin, as a Team!
-
+description: Rules that apply to React Components that need to access the Obsidian `App` object.
+globs: *.tsx
+alwaysApply: false
 ---
 
 # Instructions
