@@ -20,6 +20,7 @@ We are working with Typescript and React (in Strict mode).
 - Always fully comment and explain our code.
 - See the section "Using React in Obsidian Plugins", below, for additional instructions related to React.
 - If we are building a component that needs access to the Obsidian `App` object, please see the section "Additional React Instructions Specific to Components Needing App Access" for detailed instructions.
+- To see the project layout, see the Section "Project Directory and File Layout", below.
 
 - As we work, read and maintain the `README.md` file.
 - Also, always follow the additional instructions given in the "Planning" Section, below.
@@ -31,7 +32,7 @@ We are working with Typescript and React (in Strict mode).
 
 - Use your search and read tools to see our codebase and view any files you need to.
 
-Before beginning any coding work, and at the start of any conversation, make sure we are on the same page. Ask me any questions you need to.
+- Before beginning any coding work, and at the start of any conversation, make sure we are on the same page. Ask me any questions you need to.
 
 Never just assume things. Asking clarifiying questions is _always_ preferable to just blindly and confidently forging ahead.
 
@@ -161,5 +162,43 @@ export const ReactView = () => {
   return <h4>{vault.getName()}</h4>;
 };
 ```
+
+---
+
+# Project Directory and File Layout
+
+obsidian-ai-helper/
+├── 📄 main.ts                  # Main plugin entry point
+├── 📄 manifest.json            # Plugin manifest
+├── 📄 package.json             # Dependencies and scripts
+├── 📄 README.md                # Project documentation
+├── 📄 styles.css               # Plugin styles
+├── 📄 ReactView.tsx            # Example React component
+├── 📄 tsconfig.json            # TypeScript configuration
+├── 📄 esbuild.config.mjs       # Build configuration
+├── 📄 versions.json            # Version tracking
+├── 📄 version-bump.mjs         # Version bump script
+├── 📄 .eslintrc                # ESLint configuration
+├── 📄 .gitignore               # Git ignore rules
+├── 📄 LICENSE                  # Apache 2.0 license
+│
+├── 📁 src/                     # Source code directory
+│   ├── 📁 views/               # React views for Obsidian
+│   │   └── 📄 AIHelperView.tsx # Main sidebar view
+│   │
+│   ├── 📁 components/          # React components
+│   │   └── 📄 AIHelperComponent.tsx # Main React component
+│   │
+│   ├── 📁 hooks/               # Custom React hooks
+│   │   └── 📄 useApp.ts        # Hook for accessing Obsidian App
+│   │
+│   └── 📁 context/             # React contexts
+│       └── 📄 AppContext.ts    # Context for Obsidian App object
+│
+├── 📁 tasks/                   # Project planning and tasks
+│   └── 📄 react-sidebar-view-implementation-progress.md # Implementation tracking
+│
+├── 📁 node_modules/            # Dependencies (not tracked in git)
+└── 📁 .cursor/                 # Cursor IDE configuration
 
 ---
