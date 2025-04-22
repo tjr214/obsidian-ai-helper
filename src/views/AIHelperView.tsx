@@ -10,6 +10,7 @@ import { Root, createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import { AIHelperComponent } from "../components/AIHelperComponent";
 import { AppContext } from "../context/AppContext";
+import { EventProvider } from "../context/EventContext";
 
 // Unique identifier for this view type
 export const AI_HELPER_VIEW_TYPE = "ai-helper-view";
@@ -62,7 +63,9 @@ export class AIHelperView extends ItemView {
 		this.root.render(
 			<StrictMode>
 				<AppContext.Provider value={this.app}>
-					<AIHelperComponent />
+					<EventProvider>
+						<AIHelperComponent />
+					</EventProvider>
 				</AppContext.Provider>
 			</StrictMode>
 		);

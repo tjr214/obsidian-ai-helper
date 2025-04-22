@@ -7,6 +7,7 @@
 
 import React, { useState } from "react";
 import { useApp } from "../hooks/useApp";
+import { EventDemo } from "./EventDemo";
 
 /**
  * Main component for the AI Helper view that appears in the Obsidian sidebar.
@@ -52,6 +53,9 @@ export const AIHelperComponent: React.FC = () => {
 						features and information can be displayed.
 					</p>
 					<p>Future functionality will be implemented here.</p>
+
+					{/* Event system demo */}
+					<EventDemo />
 				</div>
 			)}
 		</div>
