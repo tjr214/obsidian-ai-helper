@@ -65,7 +65,7 @@
    - Check color contrast meets accessibility standards in both themes
 
 # Subtasks:
-## 1. Install and configure shadcn UI dependencies [pending]
+## 1. Install and configure shadcn UI dependencies [done]
 ### Dependencies: None
 ### Description: Set up the necessary npm packages and initial configuration files for shadcn UI integration with Obsidian
 ### Details:
