@@ -74,7 +74,7 @@ This document provides a detailed reference for interacting with Taskmaster, cov
 *   **CLI Command:** `task-master next [options]`
 *   **Description:** `Ask Taskmaster to show the next available task you can work on, based on status and completed dependencies.`
 *   **Key Parameters/Options:**
-    *   `file`: `Path to your Taskmaster 'tasks.json' file (default relies on auto-detection).` (CLI: `-f, --file <file>`)
+    *   `file`: `Path to your Taskmaster 'tasks.json' file (CRITICAL: you must always specify the FULL PATH for the tasks.json file using the `file parameter`. If you need to, use your search tool to find it in our project).` (CLI: `-f, --file <file>`)
 *   **Usage:** Identify what to work on next according to the plan.
 
 ### 5. Get Task Details (`get_task`)

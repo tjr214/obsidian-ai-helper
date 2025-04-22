@@ -1,0 +1,269 @@
+<context>
+# Overview
+Obsidian AI Helper is an advanced plugin for Obsidian that incorporates multiple AI assistants directly into the Obsidian interface. It provides users with a versatile, agentic AI assistant that can interact with the user's vault, manipulate notes, conduct research, summarize content, and more through various specialized modes. The plugin bridges the gap between note-taking and AI assistance, enabling users to leverage AI capabilities while maintaining the organizational benefits of Obsidian.
+
+# Core Features
+1. **Multi-tab Interface with Floating Windows**
+   - Tab-based interface integrated into Obsidian's right panel
+   - Ability to pop out chat sessions into separate floating windows
+   - Support for multiple concurrent chat sessions across different modes
+
+2. **Five Specialized Chat Modes**
+   - General Chat: Standard AI assistant conversation
+   - Time Capsule: Temporal summarization of notes by day, week, month, or year
+   - Research: Advanced research capabilities with web search and Perplexity integration
+   - Youtube Summary: Video summarization and multi-video analysis using Gemini Pro 2.5
+   - Transcription: Audio and video transcription capabilities
+
+3. **Agentic Capabilities**
+   - Complete access to user's vault and notes
+   - Tool-using capabilities for searching, reading, editing, and creating notes
+   - Implementation of Anthropic's Model Context Protocol (MCP) for tool discovery and usage
+   - User-configurable MCP settings via plugin configuration
+
+4. **Multiple AI Model Support**
+   - Claude 3.7 Sonnet Thinking as the default model
+   - Support for selecting different AI models in most modes
+   - Specialized Gemini Pro 2.5 integration for Youtube Summary and Transcription modes
+
+# User Experience
+- **Target Users**: Obsidian users looking to enhance their note-taking with AI assistance, researchers, content creators, and knowledge workers
+- **User Flow**: 
+  1. User opens the AI Helper panel in Obsidian
+  2. Selects a chat mode based on their current task
+  3. Interacts with the AI through natural language
+  4. Optionally pops out sessions into floating windows for multi-tasking
+  5. Saves or exports AI-generated content directly to their vault
+- **UI/UX Considerations**:
+  - Shadcn UI components for a clean, modern interface
+  - Theme inheritance from active Obsidian theme for seamless integration
+  - Intuitive tab interface for managing multiple AI sessions
+  - Calendar widget for Time Capsule mode with Obsidian settings integration
+</context>
+<PRD>
+# Technical Architecture
+
+## System Components
+1. **Plugin Core**
+   - Main plugin class that initializes the plugin and registers views, commands, and settings
+   - React integration for UI components
+   - Event handling system for communication between components
+
+2. **User Interface**
+   - Right panel view with tab navigation
+   - Floating window system for detached chat sessions
+   - Chat interface with message history, input area, and control buttons
+   - Specialized UI components for each mode (calendar for Time Capsule, video player for Youtube Summary, etc.)
+
+3. **AI Integration Layer**
+   - API clients for Claude and Gemini models
+   - MCP client implementation for tool discovery and usage
+   - Message formatting and parsing
+   - Stream handling for real-time responses
+
+4. **Tool System**
+   - Vault interaction tools (search, read, create, edit notes)
+   - Web search integration
+   - Perplexity API integration for research
+   - Youtube API integration for video metadata and content
+   - Audio processing capabilities for transcription
+
+5. **Data Management**
+   - Chat history persistence
+   - Settings storage and management
+   - Time Capsule data organization
+   - Research results management
+
+## Data Models
+1. **Chat Session**
+   - ID, type (mode), title, creation timestamp
+   - Message history
+   - Associated model and configuration
+   - Specialized data based on mode (selected date for Time Capsule, video IDs for Youtube Summary)
+
+2. **Message**
+   - ID, timestamp, role (user/assistant/system)
+   - Content (text, markdown)
+   - Metadata (model used, tokens, etc.)
+   - Tool calls and results
+
+3. **Tool Definition**
+   - Name, description, parameters
+   - Handler function
+   - Required permissions
+
+4. **Plugin Settings**
+   - API keys (Anthropic, Google, Perplexity)
+   - Default models for each mode
+   - UI preferences
+   - MCP configuration path
+
+## APIs and Integrations
+1. **Obsidian API**
+   - App object access
+   - Vault access for reading and writing notes
+   - Settings integration
+   - View registration and management
+
+2. **External APIs**
+   - Anthropic Claude API
+   - Google Gemini API
+   - Perplexity API
+   - Youtube Data API
+   - Web search API
+
+## Infrastructure Requirements
+- TypeScript and React for frontend
+- Local storage for chat history and settings
+- Streaming response handling
+- OAuth handling for relevant APIs
+
+# Development Roadmap
+
+## Phase 1: Core Infrastructure
+1. Set up basic plugin structure with React integration
+2. Implement right panel view with tab system
+3. Create floating window capability
+4. Implement settings page for API keys and basic configuration
+5. Set up basic Claude integration for text chat
+6. Implement chat interface with message history and input
+
+## Phase 2: General Chat Mode
+1. Complete Claude API integration with streaming responses
+2. Implement MCP client for tool usage
+3. Create basic tools for vault interaction (search, read)
+4. Add tools for note creation and editing
+5. Implement chat persistence
+6. Add model selection capability
+
+## Phase 3: Time Capsule Mode
+1. Implement calendar widget with Obsidian settings integration
+2. Create note summarization functionality by time period
+3. Implement day summarization
+4. Add week summarization based on Obsidian week settings
+5. Implement month summarization based on Tropical zodiacal calendar
+6. Add year summarization capabilities
+7. Create exportable Time Capsule note format
+
+## Phase 4: Research Mode
+1. Implement web search integration
+2. Add Perplexity API integration for basic research
+3. Implement Deep Research capability via Perplexity
+4. Create tools for cross-note analysis
+5. Add research export functionality
+6. Implement research note creation with proper linking
+
+## Phase 5: Youtube Summary Mode
+1. Set up Gemini Pro 2.5 API integration
+2. Implement Youtube video data extraction
+3. Create video summarization functionality
+4. Add multi-video analysis capabilities
+5. Implement chat-with-video functionality
+6. Create export formats for video summaries
+
+## Phase 6: Transcription Mode
+1. Implement audio file processing
+2. Add Youtube audio extraction
+3. Integrate Gemini Pro 2.5 for transcription
+4. Create transcription storage and formatting
+5. Implement transcription editing and correction
+6. Add export functionality for transcriptions
+
+## Phase 7: UI Refinement and Testing
+1. Implement Shadcn UI components
+2. Create theme inheritance from Obsidian
+3. Refine tab interface and floating windows
+4. Optimize UI for different screen sizes
+5. Implement comprehensive error handling
+6. Add loading states and progress indicators
+7. Conduct user testing and iterate on feedback
+
+## Phase 8: Performance Optimization and Documentation
+1. Optimize memory usage for large chat histories
+2. Implement efficient streaming for AI responses
+3. Add caching for frequently accessed vault data
+4. Create comprehensive user documentation
+5. Add tooltips and in-app guidance
+6. Prepare for public release
+
+# Logical Dependency Chain
+1. **Foundation First**
+   - Basic plugin structure and React integration
+   - Right panel view and tab system
+   - Chat interface components
+   - Claude API integration
+   - Settings management
+
+2. **Core Functionality**
+   - MCP implementation for tool usage
+   - Vault access tools
+   - Message persistence
+   - Floating windows
+
+3. **Mode-Specific Development**
+   - General Chat mode (foundation for other modes)
+   - Time Capsule mode (leverages vault access)
+   - Research mode (builds on search capabilities)
+   - Youtube Summary mode (requires Gemini integration)
+   - Transcription mode (builds on audio processing)
+
+4. **UI Refinement**
+   - Shadcn UI implementation
+   - Theme integration
+   - Responsive design
+   - Accessibility features
+
+5. **Final Polish**
+   - Performance optimization
+   - Error handling
+   - Documentation
+   - User testing feedback implementation
+
+# Risks and Mitigations
+
+## Technical Challenges
+1. **Risk**: Complexity of implementing MCP protocol
+   **Mitigation**: Start with basic tool functionality and incrementally add more complex tools; leverage existing documentation and libraries from Anthropic
+
+2. **Risk**: Integration with multiple AI APIs may cause inconsistencies
+   **Mitigation**: Create abstraction layers that normalize API responses; implement thorough error handling
+
+3. **Risk**: Performance issues with large vaults
+   **Mitigation**: Implement pagination and lazy loading; optimize search algorithms; add caching where appropriate
+
+4. **Risk**: Reliable streaming of AI responses
+   **Mitigation**: Implement robust connection handling with retry logic; add fallback to non-streaming when necessary
+
+## MVP Scoping
+1. **Risk**: Scope creep across five distinct modes
+   **Mitigation**: Clearly define MVP for each mode; prioritize General Chat and Time Capsule for initial release; implement other modes incrementally
+
+2. **Risk**: User expectations may exceed initial capabilities
+   **Mitigation**: Clearly communicate current capabilities and limitations; provide roadmap for future enhancements
+
+## Resource Constraints
+1. **Risk**: API usage costs may become prohibitive
+   **Mitigation**: Implement token counting and usage tracking; add user-configurable limits; optimize prompts for efficiency
+
+2. **Risk**: Limited development resources across multiple complex features
+   **Mitigation**: Focus on component reusability; leverage existing libraries where possible; prioritize features based on user value
+
+# Appendix
+
+## Key Technologies
+- TypeScript and React for frontend
+- Obsidian API for plugin integration
+- Anthropic Claude API for primary AI capabilities
+- Google Gemini Pro 2.5 API for video and audio processing
+- Perplexity API for research capabilities
+- Shadcn UI for component library
+- MCP protocol for tool usage
+
+## Technical Notes
+- The plugin will use React in strict mode
+- All code will be fully typed with TypeScript
+- Components will follow a reusable pattern
+- Access to the Obsidian App object will be provided through the useApp hook
+- AppContext will be used for sharing the App object across components
+- Obsidian's theming system will be respected through custom theme adaptation
+</PRD> 

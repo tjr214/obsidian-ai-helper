@@ -60,7 +60,7 @@ if [ ! -f "package.json" ]; then
     handle_error "package.json not found in current directory. Please run this script from your project root."
 fi
 
-execute_command "pnpm update" "Failed to update packages. Please check your project configuration and try again."
+execute_command "npm update" "Failed to update packages. Please check your project configuration and try again."
 
 echo -e "${GREEN}${BOLD}✨ All done! packages have been updated.${NC}"
 
