@@ -196,7 +196,7 @@ node_modules/
 .aider*
 
 # Comment if you actually have a `lib` folder
-lib/
+# lib/
 
 # Added by Claude Task Master
 # Logs

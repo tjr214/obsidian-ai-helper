@@ -3,7 +3,7 @@ import {
 	Editor,
 	MarkdownView,
 	Modal,
-	Notice,
+	// Notice,
 	Plugin,
 	PluginSettingTab,
 	Setting,
