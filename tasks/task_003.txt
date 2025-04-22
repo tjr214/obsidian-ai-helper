@@ -1,0 +1,11 @@
+# Task ID: 3
+# Title: Create settings page and API integration layer
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Implement the settings management system and establish connections to external AI APIs.
+# Details:
+Create a settings page for API keys (Anthropic, Google, Perplexity), default models, UI preferences, and MCP configuration. Implement secure storage for API keys. Create API client classes for Claude and Gemini models with proper error handling. Set up the foundation for streaming responses. Implement token counting and usage tracking. Create abstraction layers to normalize responses from different AI providers. Add validation for API keys and connection testing.
+
+# Test Strategy:
+Verify settings are correctly saved and loaded. Test API connections with sample requests. Validate error handling for invalid API keys or failed requests. Test streaming response handling with mock data.

@@ -218,8 +218,8 @@ dev-debug.log
 # OS specific
 
 # Task files
-tasks.json
-tasks/ 
+# tasks.json
+# tasks/
 
 # Cursor MCP file because they have API keys in them
 .cursor/mcp.json

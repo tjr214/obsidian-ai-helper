@@ -1,0 +1,284 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Set up plugin infrastructure with React integration",
+      "description": "Initialize the plugin structure, integrate React, and set up the basic architecture for the Obsidian AI Helper.",
+      "status": "done",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Create the main plugin class that extends Obsidian's Plugin. Set up TypeScript configuration with strict mode. Integrate React using esbuild for bundling. Create the AppContext to share the Obsidian App object across components. Implement the useApp hook for accessing the App object. Set up the event handling system for communication between components. Create the basic folder structure following component reusability patterns.",
+      "testStrategy": "Verify the plugin loads in Obsidian without errors. Test that React components can render and access the Obsidian API through the context. Ensure the event system correctly propagates events between components.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Initialize plugin structure and TypeScript configuration",
+          "description": "Set up the basic Obsidian plugin structure with proper TypeScript configuration in strict mode",
+          "dependencies": [],
+          "details": "1. Create the main plugin class that extends Obsidian's Plugin\n2. Set up the main.ts file with onload() and onunload() methods\n3. Configure tsconfig.json with strict mode enabled\n4. Create manifest.json with plugin metadata\n5. Set up .gitignore and other project files\n6. Test by ensuring the plugin loads in Obsidian developer mode without errors",
+          "status": "done",
+          "parentTaskId": 1
+        },
+        {
+          "id": 2,
+          "title": "Configure esbuild for React bundling",
+          "description": "Set up the build system using esbuild to bundle React components with the plugin",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Install necessary dependencies: React, React DOM, esbuild\n2. Create esbuild configuration file\n3. Set up build scripts in package.json\n4. Configure JSX transformation in the build process\n5. Add development and production build modes\n6. Test by building the project and verifying the output bundle",
+          "status": "done",
+          "parentTaskId": 1
+        },
+        {
+          "id": 3,
+          "title": "Create folder structure and component architecture",
+          "description": "Establish a well-organized folder structure following component reusability patterns",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "1. Create src/ directory with subdirectories: components/, hooks/, utils/, contexts/\n2. Set up index files for clean imports\n3. Create placeholder files for key components\n4. Establish naming conventions and file organization standards\n5. Document the architecture in README.md\n6. Test by importing from these directories in a simple component",
+          "status": "done",
+          "parentTaskId": 1
+        },
+        {
+          "id": 4,
+          "title": "Implement AppContext for sharing Obsidian App object",
+          "description": "Create a React context to provide the Obsidian App object throughout the component tree",
+          "dependencies": [
+            2,
+            3
+          ],
+          "details": "1. Create AppContext.tsx in the contexts/ directory\n2. Implement the AppProvider component that accepts the App object\n3. Set up proper TypeScript typing for the context\n4. Create a basic error boundary for the context\n5. Add context initialization in the main plugin class\n6. Test by rendering a component that consumes the context and verifies the App object is available",
+          "status": "done",
+          "parentTaskId": 1
+        },
+        {
+          "id": 5,
+          "title": "Develop useApp custom hook",
+          "description": "Create a custom React hook for easily accessing the Obsidian App object from any component",
+          "dependencies": [
+            4
+          ],
+          "details": "1. Create useApp.ts in the hooks/ directory\n2. Implement the hook to consume AppContext\n3. Add proper error handling for when used outside context\n4. Add TypeScript typing for return values\n5. Document usage examples\n6. Test by creating a simple component that uses the hook to access App functionality",
+          "status": "done",
+          "parentTaskId": 1
+        },
+        {
+          "id": 6,
+          "title": "Set up event handling system for component communication",
+          "description": "Implement an event system to facilitate communication between different React components",
+          "dependencies": [
+            3,
+            4,
+            5
+          ],
+          "details": "1. Create an EventBus class in utils/ directory\n2. Implement subscribe, unsubscribe, and emit methods\n3. Create a useEventBus hook for React components\n4. Add TypeScript interfaces for event types\n5. Integrate the event system with the AppContext\n6. Test by creating two components that communicate through events",
+          "status": "done",
+          "parentTaskId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Implement right panel view with tab system and floating windows",
+      "description": "Create the UI framework for the plugin including the right panel view, tab navigation system, and floating window capability.",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Register a view with Obsidian's workspace for the right panel. Implement tab navigation system to switch between different chat sessions. Create a floating window system that allows chat sessions to be detached from the main panel. Implement basic state management for tracking active tabs and windows. Ensure proper lifecycle management for tabs and windows (creation, activation, closing). Set up the foundation for theme inheritance from the active Obsidian theme.",
+      "testStrategy": "Test opening and closing the right panel. Verify tabs can be created, switched between, and closed. Test detaching a chat session to a floating window and reattaching it. Verify the UI correctly inherits the current Obsidian theme."
+    },
+    {
+      "id": 3,
+      "title": "Create settings page and API integration layer",
+      "description": "Implement the settings management system and establish connections to external AI APIs.",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Create a settings page for API keys (Anthropic, Google, Perplexity), default models, UI preferences, and MCP configuration. Implement secure storage for API keys. Create API client classes for Claude and Gemini models with proper error handling. Set up the foundation for streaming responses. Implement token counting and usage tracking. Create abstraction layers to normalize responses from different AI providers. Add validation for API keys and connection testing.",
+      "testStrategy": "Verify settings are correctly saved and loaded. Test API connections with sample requests. Validate error handling for invalid API keys or failed requests. Test streaming response handling with mock data."
+    },
+    {
+      "id": 4,
+      "title": "Implement chat interface with message history and persistence",
+      "description": "Build the core chat interface components and implement message persistence.",
+      "status": "pending",
+      "dependencies": [
+        2,
+        3
+      ],
+      "priority": "high",
+      "details": "Create the chat interface with message history display, input area, and control buttons. Implement the Message data model with ID, timestamp, role, content, and metadata. Design the Chat Session data model to track session information. Implement local storage for chat history persistence. Add message formatting for markdown support. Create loading states and progress indicators. Implement basic error handling for the chat interface. Add support for different message types (text, system messages, tool results).",
+      "testStrategy": "Test sending and receiving messages. Verify messages are correctly formatted and displayed. Test persistence by closing and reopening the plugin. Verify loading states appear appropriately during API calls."
+    },
+    {
+      "id": 5,
+      "title": "Implement MCP client and vault interaction tools",
+      "description": "Create the Model Context Protocol client and implement tools for interacting with the Obsidian vault.",
+      "status": "pending",
+      "dependencies": [
+        3,
+        4
+      ],
+      "priority": "high",
+      "details": "Implement Anthropic's Model Context Protocol (MCP) for tool discovery and usage. Create the Tool Definition data model with name, description, parameters, and handler function. Implement vault interaction tools: search notes, read note content, create new notes, and edit existing notes. Add proper error handling for tool execution. Implement tool result formatting for display in the chat. Create a system for managing tool permissions and user confirmation for sensitive operations.",
+      "testStrategy": "Test each vault interaction tool individually. Verify the MCP client correctly formats tool definitions and handles tool calls. Test error scenarios such as trying to access non-existent notes. Verify tool results are correctly displayed in the chat interface."
+    },
+    {
+      "id": 6,
+      "title": "Implement General Chat mode with Claude integration",
+      "description": "Complete the General Chat mode with full Claude API integration and tool usage capabilities.",
+      "status": "pending",
+      "dependencies": [
+        4,
+        5
+      ],
+      "priority": "medium",
+      "details": "Finalize Claude API integration with streaming responses. Implement model selection capability for different Claude models. Create specialized UI components for the General Chat mode. Integrate the MCP client for tool usage within the chat. Implement system prompts for the General Chat mode. Add support for conversation context management. Create functionality to export chat content to notes. Implement chat title generation and management.",
+      "testStrategy": "Test full conversations with the AI including tool usage. Verify streaming responses display correctly. Test model switching functionality. Verify context management handles long conversations appropriately. Test exporting chat content to notes."
+    },
+    {
+      "id": 7,
+      "title": "Implement Time Capsule mode with calendar integration",
+      "description": "Create the Time Capsule mode for temporal summarization of notes with calendar widget integration.",
+      "status": "pending",
+      "dependencies": [
+        5,
+        6
+      ],
+      "priority": "medium",
+      "details": "Implement calendar widget with Obsidian settings integration for week start. Create note summarization functionality by time period (day, week, month, year). Implement day summarization with date selection. Add week summarization based on Obsidian week settings. Implement month summarization based on Tropical zodiacal calendar. Add year summarization capabilities. Create exportable Time Capsule note format. Implement specialized UI components for the Time Capsule mode.",
+      "testStrategy": "Test date selection via the calendar widget. Verify summarization works for different time periods. Test integration with Obsidian week settings. Verify the exported Time Capsule notes contain the correct information and formatting."
+    },
+    {
+      "id": 8,
+      "title": "Implement Research and Youtube Summary modes",
+      "description": "Create the Research mode with web search and Perplexity integration, and the Youtube Summary mode with Gemini integration.",
+      "status": "pending",
+      "dependencies": [
+        6
+      ],
+      "priority": "medium",
+      "details": "For Research mode: Implement web search integration. Add Perplexity API integration for basic and deep research. Create tools for cross-note analysis. Add research export functionality. Implement research note creation with proper linking. For Youtube Summary mode: Set up Gemini Pro 2.5 API integration. Implement Youtube video data extraction. Create video summarization functionality. Add multi-video analysis capabilities. Implement chat-with-video functionality. Create export formats for video summaries.",
+      "testStrategy": "For Research mode: Test web search functionality. Verify Perplexity API integration returns useful results. Test cross-note analysis and research export. For Youtube Summary mode: Test Youtube video data extraction. Verify video summarization produces useful results. Test multi-video analysis and chat-with-video functionality."
+    },
+    {
+      "id": 9,
+      "title": "Implement Transcription mode and audio processing",
+      "description": "Create the Transcription mode with audio file processing and Gemini integration for transcription.",
+      "status": "pending",
+      "dependencies": [
+        8
+      ],
+      "priority": "low",
+      "details": "Implement audio file processing capabilities. Add Youtube audio extraction functionality. Integrate Gemini Pro 2.5 for transcription. Create transcription storage and formatting. Implement transcription editing and correction. Add export functionality for transcriptions. Create specialized UI components for the Transcription mode. Implement progress tracking for long transcription jobs.",
+      "testStrategy": "Test audio file processing with different file formats. Verify Youtube audio extraction works correctly. Test transcription accuracy with various audio samples. Verify editing and export functionality for transcriptions."
+    },
+    {
+      "id": 10,
+      "title": "Implement UI refinement, performance optimization, and documentation",
+      "description": "Refine the UI with Shadcn components, optimize performance, and create documentation.",
+      "status": "pending",
+      "dependencies": [
+        7,
+        8,
+        9
+      ],
+      "priority": "medium",
+      "details": "Implement Shadcn UI components for a clean, modern interface. Refine theme inheritance from Obsidian. Optimize UI for different screen sizes. Implement comprehensive error handling throughout the application. Optimize memory usage for large chat histories. Implement efficient streaming for AI responses. Add caching for frequently accessed vault data. Create comprehensive user documentation. Add tooltips and in-app guidance. Prepare for public release with final testing and bug fixes.",
+      "testStrategy": "Verify UI components render correctly with different Obsidian themes. Test performance with large chat histories and vaults. Verify error handling catches and displays errors appropriately. Test documentation for completeness and accuracy."
+    },
+    {
+      "id": 11,
+      "title": "Integrate shadcn UI with Obsidian Plugin",
+      "description": "Install, configure, and test shadcn UI components to work seamlessly within the Obsidian plugin environment, ensuring compatibility with Obsidian's theming system.",
+      "details": "1. Install shadcn UI dependencies:\n   - Run `npm install @shadcn/ui` and any peer dependencies\n   - Add required tailwind dependencies: `npm install -D tailwindcss postcss autoprefixer`\n\n2. Configure tailwind.config.js:\n   - Set up proper content paths to include plugin files\n   - Configure theme extension to support Obsidian's CSS variables\n   - Add dark mode configuration that detects Obsidian's theme\n\n3. Create a components directory structure:\n   - Set up the recommended shadcn UI folder structure\n   - Create a UI registry file to manage component imports\n\n4. Configure CSS integration:\n   - Create a global.css file that imports tailwind directives\n   - Set up CSS variable mapping between shadcn and Obsidian variables\n   - Ensure CSS is properly bundled in the build process\n\n5. Update build configuration:\n   - Modify esbuild/webpack configuration to handle CSS processing\n   - Configure PostCSS if needed\n   - Ensure proper asset handling for any shadcn UI assets\n\n6. Create theme adaptation layer:\n   - Implement a theme provider component that reads Obsidian's current theme\n   - Set up dynamic theme switching to respond to Obsidian theme changes\n   - Map Obsidian's CSS variables to shadcn UI theme variables\n\n7. Implement basic component examples:\n   - Create a test view with common shadcn UI components\n   - Ensure proper styling and behavior of components",
+      "testStrategy": "1. Visual Testing:\n   - Create a test view with all major shadcn UI components (buttons, inputs, modals, etc.)\n   - Verify components render correctly in both light and dark Obsidian themes\n   - Check for any CSS conflicts or rendering issues\n   - Test responsive behavior within different Obsidian window sizes\n\n2. Theme Switching Tests:\n   - Toggle between Obsidian light and dark themes to verify components adapt correctly\n   - Verify no flickering or style inconsistencies during theme transitions\n   - Test with custom Obsidian themes to ensure compatibility\n\n3. Performance Testing:\n   - Measure plugin load time before and after shadcn UI integration\n   - Check for any performance degradation when rendering multiple components\n   - Verify memory usage remains reasonable\n\n4. Integration Testing:\n   - Test component interactions within actual plugin features\n   - Verify form submissions and data handling work correctly\n   - Test modal dialogs and overlays function properly within Obsidian's DOM\n\n5. Accessibility Testing:\n   - Verify keyboard navigation works for all components\n   - Test with screen readers to ensure proper ARIA attributes\n   - Check color contrast meets accessibility standards in both themes",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Install and configure shadcn UI dependencies",
+          "description": "Set up the necessary npm packages and initial configuration files for shadcn UI integration with Obsidian",
+          "dependencies": [],
+          "details": "1. Install core dependencies:\n   - Run `npm install @shadcn/ui`\n   - Add tailwind dependencies: `npm install -D tailwindcss postcss autoprefixer`\n   - Install any other required peer dependencies\n2. Initialize tailwind configuration:\n   - Run `npx tailwindcss init -p` to create tailwind.config.js and postcss.config.js\n3. Create initial folder structure:\n   - Create a `components` directory in the project root\n   - Create a `ui` subdirectory inside components\n   - Create a `styles` directory for CSS files\n4. Testing approach:\n   - Verify all packages install without errors\n   - Confirm configuration files are created correctly\n   - Check that the project structure is properly set up",
+          "status": "pending",
+          "parentTaskId": 11
+        },
+        {
+          "id": 2,
+          "title": "Configure tailwind for Obsidian compatibility",
+          "description": "Modify tailwind configuration to work with Obsidian's theming system and ensure proper CSS processing",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Update tailwind.config.js:\n   - Configure content paths: `content: [\"./src/**/*.{js,jsx,ts,tsx}\"]`\n   - Set up dark mode detection: `darkMode: \"class\"`\n   - Configure theme extension to map to Obsidian variables\n2. Create global.css in the styles directory:\n   - Add tailwind directives: `@tailwind base; @tailwind components; @tailwind utilities;`\n   - Set up CSS variable mapping between shadcn and Obsidian\n3. Update build configuration:\n   - Modify esbuild/webpack to process CSS files\n   - Configure PostCSS with autoprefixer\n   - Ensure CSS is properly bundled in the output\n4. Testing approach:\n   - Verify tailwind configuration loads without errors\n   - Confirm CSS processing works in the build pipeline\n   - Check that basic tailwind classes work in a test component",
+          "status": "pending",
+          "parentTaskId": 11
+        },
+        {
+          "id": 3,
+          "title": "Create theme adaptation layer for Obsidian",
+          "description": "Implement a system to detect and adapt to Obsidian's theme changes, ensuring shadcn UI components match the current theme",
+          "dependencies": [
+            2
+          ],
+          "details": "1. Create a ThemeProvider component:\n   - Implement detection of Obsidian's current theme (light/dark)\n   - Set up listeners for Obsidian theme change events\n   - Create a context to provide theme information to components\n2. Map Obsidian CSS variables to shadcn UI theme variables:\n   - Create a mapping file that connects Obsidian's CSS variables to shadcn's theme system\n   - Implement dynamic CSS variable application based on current theme\n3. Add theme switching functionality:\n   - Create utility functions to update theme variables when Obsidian's theme changes\n   - Ensure smooth transitions between themes\n4. Testing approach:\n   - Test theme detection in both light and dark Obsidian themes\n   - Verify theme changes are properly detected and applied\n   - Check that CSS variables are correctly mapped between systems",
+          "status": "pending",
+          "parentTaskId": 11
+        },
+        {
+          "id": 4,
+          "title": "Set up shadcn UI component registry",
+          "description": "Create a structured system for importing and using shadcn UI components within the plugin",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "1. Create a component registry file:\n   - Set up a central file to manage component imports and exports\n   - Implement a system for lazy-loading components when needed\n2. Configure the recommended shadcn UI folder structure:\n   - Organize components by category (buttons, inputs, layout, etc.)\n   - Set up proper file naming conventions\n3. Create utility functions for component usage:\n   - Implement helper functions for common component patterns\n   - Create wrappers for shadcn components that need Obsidian-specific behavior\n4. Testing approach:\n   - Verify component imports work correctly\n   - Check that component organization follows best practices\n   - Ensure utility functions properly enhance component functionality",
+          "status": "pending",
+          "parentTaskId": 11
+        },
+        {
+          "id": 5,
+          "title": "Implement basic shadcn UI components",
+          "description": "Add and configure a set of commonly used shadcn UI components adapted for Obsidian",
+          "dependencies": [
+            3,
+            4
+          ],
+          "details": "1. Implement core UI components:\n   - Button component with various styles (primary, secondary, etc.)\n   - Input and form components adapted for Obsidian\n   - Dialog/modal components that work within Obsidian's UI\n   - Card and container components for content organization\n2. Customize components for Obsidian:\n   - Adjust styling to match Obsidian's design language\n   - Ensure proper keyboard navigation and accessibility\n   - Add Obsidian-specific behaviors where needed\n3. Document component usage:\n   - Create usage examples for each component\n   - Document props and configuration options\n4. Testing approach:\n   - Test each component in isolation\n   - Verify components work in both light and dark themes\n   - Check accessibility and keyboard navigation",
+          "status": "pending",
+          "parentTaskId": 11
+        },
+        {
+          "id": 6,
+          "title": "Create test view with component showcase",
+          "description": "Build a comprehensive test view that demonstrates all implemented shadcn UI components within Obsidian",
+          "dependencies": [
+            5
+          ],
+          "details": "1. Create a test view in the plugin:\n   - Implement a new view that can be opened from the plugin's menu\n   - Structure the view to showcase different component categories\n2. Add component demonstrations:\n   - Create sections for each component type\n   - Show different variants and states of components\n   - Add interactive examples where appropriate\n3. Implement theme testing features:\n   - Add controls to test components in different theme contexts\n   - Show how components adapt to Obsidian theme changes\n4. Add performance monitoring:\n   - Implement basic metrics to track component rendering performance\n   - Identify and document any performance issues\n5. Testing approach:\n   - Test the showcase in various Obsidian themes\n   - Verify all components render correctly\n   - Check for any styling conflicts or issues\n   - Test on different platforms (Windows, Mac, Linux, mobile)",
+          "status": "pending",
+          "parentTaskId": 11
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "projectName": "Obsidian AI Helper Implementation",
+    "totalTasks": 10,
+    "sourceFile": "scripts/prd.txt",
+    "generatedAt": "2023-11-15"
+  }
+}

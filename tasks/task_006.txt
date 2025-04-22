@@ -1,0 +1,11 @@
+# Task ID: 6
+# Title: Implement General Chat mode with Claude integration
+# Status: pending
+# Dependencies: 4, 5
+# Priority: medium
+# Description: Complete the General Chat mode with full Claude API integration and tool usage capabilities.
+# Details:
+Finalize Claude API integration with streaming responses. Implement model selection capability for different Claude models. Create specialized UI components for the General Chat mode. Integrate the MCP client for tool usage within the chat. Implement system prompts for the General Chat mode. Add support for conversation context management. Create functionality to export chat content to notes. Implement chat title generation and management.
+
+# Test Strategy:
+Test full conversations with the AI including tool usage. Verify streaming responses display correctly. Test model switching functionality. Verify context management handles long conversations appropriately. Test exporting chat content to notes.

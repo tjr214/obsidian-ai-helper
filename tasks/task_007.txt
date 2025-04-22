@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Implement Time Capsule mode with calendar integration
+# Status: pending
+# Dependencies: 5, 6
+# Priority: medium
+# Description: Create the Time Capsule mode for temporal summarization of notes with calendar widget integration.
+# Details:
+Implement calendar widget with Obsidian settings integration for week start. Create note summarization functionality by time period (day, week, month, year). Implement day summarization with date selection. Add week summarization based on Obsidian week settings. Implement month summarization based on Tropical zodiacal calendar. Add year summarization capabilities. Create exportable Time Capsule note format. Implement specialized UI components for the Time Capsule mode.
+
+# Test Strategy:
+Test date selection via the calendar widget. Verify summarization works for different time periods. Test integration with Obsidian week settings. Verify the exported Time Capsule notes contain the correct information and formatting.

@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Implement Research and Youtube Summary modes
+# Status: pending
+# Dependencies: 6
+# Priority: medium
+# Description: Create the Research mode with web search and Perplexity integration, and the Youtube Summary mode with Gemini integration.
+# Details:
+For Research mode: Implement web search integration. Add Perplexity API integration for basic and deep research. Create tools for cross-note analysis. Add research export functionality. Implement research note creation with proper linking. For Youtube Summary mode: Set up Gemini Pro 2.5 API integration. Implement Youtube video data extraction. Create video summarization functionality. Add multi-video analysis capabilities. Implement chat-with-video functionality. Create export formats for video summaries.
+
+# Test Strategy:
+For Research mode: Test web search functionality. Verify Perplexity API integration returns useful results. Test cross-note analysis and research export. For Youtube Summary mode: Test Youtube video data extraction. Verify video summarization produces useful results. Test multi-video analysis and chat-with-video functionality.

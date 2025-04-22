@@ -1,0 +1,11 @@
+# Task ID: 9
+# Title: Implement Transcription mode and audio processing
+# Status: pending
+# Dependencies: 8
+# Priority: low
+# Description: Create the Transcription mode with audio file processing and Gemini integration for transcription.
+# Details:
+Implement audio file processing capabilities. Add Youtube audio extraction functionality. Integrate Gemini Pro 2.5 for transcription. Create transcription storage and formatting. Implement transcription editing and correction. Add export functionality for transcriptions. Create specialized UI components for the Transcription mode. Implement progress tracking for long transcription jobs.
+
+# Test Strategy:
+Test audio file processing with different file formats. Verify Youtube audio extraction works correctly. Test transcription accuracy with various audio samples. Verify editing and export functionality for transcriptions.

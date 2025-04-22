@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Implement right panel view with tab system and floating windows
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create the UI framework for the plugin including the right panel view, tab navigation system, and floating window capability.
+# Details:
+Register a view with Obsidian's workspace for the right panel. Implement tab navigation system to switch between different chat sessions. Create a floating window system that allows chat sessions to be detached from the main panel. Implement basic state management for tracking active tabs and windows. Ensure proper lifecycle management for tabs and windows (creation, activation, closing). Set up the foundation for theme inheritance from the active Obsidian theme.
+
+# Test Strategy:
+Test opening and closing the right panel. Verify tabs can be created, switched between, and closed. Test detaching a chat session to a floating window and reattaching it. Verify the UI correctly inherits the current Obsidian theme.
