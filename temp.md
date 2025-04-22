@@ -7,6 +7,7 @@ Within each chat tab, the "chatbot" (agentic AI assistant) has the following cap
 -   The chatbot has access to the user's Vault and all the notes therein.
 -   It also has agentic tool-using capabilities. With those tools it can search the Vault, read/edit/create new Notes in the Vault, etc. (To accomplish all of this we implement an agentic-loop.)
 -   We also implement Anthropic's Model Context Protocol (MCP) to allow the chatbot to find and use tools. We use the standard config file for MCP, `mcp.json`, which will be located in the root of the plugin folder and can be configured by the user via the Obsidian plugin settings.
+-   To accomplish this MCP integration, we implement an MCP client into the plugin. (We may need to lookup the official docs and library from Anthropic to accomplish this.)
 
 The 5 Chat Modes:
 
