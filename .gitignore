@@ -34,7 +34,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -193,4 +192,34 @@ node_modules/
 .pythonlibs
 .pythonlibs/
 
+# Aider Stuff
 .aider*
+
+# Comment if you actually have a `lib` folder
+lib/
+
+# Added by Claude Task Master
+# Logs
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+# Dependency directories
+# Environment variables
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+
+# Task files
+tasks.json
+tasks/ 
+
+# Cursor MCP file because they have API keys in them
+.cursor/mcp.json
