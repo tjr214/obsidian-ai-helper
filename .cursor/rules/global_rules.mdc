@@ -30,7 +30,6 @@ We are working with Typescript and React (in Strict mode).
 - Always fully comment and explain our code.
 - See the section "Using React in Obsidian Plugins", below, for additional instructions related to React.
 - If we are building a component that needs access to the Obsidian `App` object, please see the section "Additional React Instructions Specific to Components Needing App Access" for detailed instructions.
-- 
 
 ## Working with Libraries and Packages
 
@@ -62,7 +61,7 @@ CRITICAL: Do not ever use the `initialize_project` taskmaster MCP tool! Our proj
 
 ---
 
-# Using React in Obsidian Plugins
+# CRITICAL: Using React in Obsidian Plugins
 
 ## Create a React Component
 
@@ -122,7 +121,7 @@ You can mount your React component on any HTMLElement, for example status bar it
 
 ---
 
-# Additional React Instructions Specific to Components Needing App Access
+# IMPORTANT: Additional React Instructions Specific to Components Needing App Access
 
 ## Create And Use an Obsidian App Context
 
