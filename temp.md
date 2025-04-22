@@ -1,6 +1,6 @@
 # 1. What's the main purpose of this plugin?
 
-This plugin is a set of interrelated AI features that assist the user in a variety of ways. The main interface is as an Obsidian View that fits in the right-side panel. This view contains a tab bar where the user can switch between multiple different concurrent conversations. Each chat session can also be popped out into a separate floating window. Each chat session can be in one of 5 modes: "General Chat", "Time Capsule", "Research", or "Youtube Summary", "Transcription".
+This plugin is a set of interrelated AI features that assist the user in a variety of ways. The main interface is as an Obsidian View that fits in the right-side panel. This view contains a tab bar where the user can switch between multiple different concurrent conversations. Each chat session can also be popped out into a separate floating window. As there are multiple tabs, we can thus also have multiple floating windows open at once. Each chat session can be in one of 5 modes: "General Chat", "Time Capsule", "Research", "Youtube Summary", or "Transcription".
 
 Within each chat tab, the "chatbot" (agentic AI assistant) has the following capabilities:
 
