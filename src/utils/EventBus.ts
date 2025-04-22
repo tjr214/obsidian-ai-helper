@@ -9,7 +9,7 @@
  * EventCallback interface defines the shape of callback functions registered to the event bus.
  * T represents the type of data that will be passed when the event is emitted.
  */
-export interface EventCallback<T = any> {
+export interface EventCallback<T = unknown> {
 	(data: T): void;
 }
 
