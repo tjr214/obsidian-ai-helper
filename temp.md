@@ -46,3 +46,7 @@ In addition to the Tech Stack already mentioned in the global_rules, we want to 
 There are other chatbot plugins for Obsidian, but they are not focused on the agentic loop, tool-calling, or MCP. Nor do they have Youtube or audio transcription capabilities. Finally, they don't have the "Time Capsule" or "Research" modes -- or ANYTHING similar.
 
 Essentially, outside of the very basic chatbot functionality, this plugin is unique. (Other chatbots for Obsidian do not even support multiple chat sessions in tabs!)
+
+# Follow-up
+
+Let me know how that all sounds. Anything ambiguous we need to clear up? Anything that needs to be added or changed?
