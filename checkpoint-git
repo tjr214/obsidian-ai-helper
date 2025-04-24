@@ -1,1 +1,1 @@
-Added shadcn and ui_components rule files. The AI seems to recognize them MUCH better, now.
+Added a documentation rule and a generate initial docs prompt.
