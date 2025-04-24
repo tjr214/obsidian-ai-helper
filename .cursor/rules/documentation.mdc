@@ -1,6 +1,6 @@
 ---
-description: Guidelines for maintaining comprehensive, accurate, and up-to-date documentation across all 7 documentation files
-globs: docs/*.md, **/*.{ts,tsx,py}
+description:
+globs:
 alwaysApply: true
 ---
 
