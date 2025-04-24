@@ -1,6 +1,6 @@
 # Task ID: 11
 # Title: Integrate shadcn UI with Obsidian Plugin
-# Status: pending
+# Status: in-progress
 # Dependencies: 1
 # Priority: high
 # Description: Install, configure, and test shadcn UI components to work seamlessly within the Obsidian plugin environment, ensuring compatibility with Obsidian's theming system.
