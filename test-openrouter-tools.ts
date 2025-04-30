@@ -72,6 +72,22 @@ interface AgentResponse {
 }
 
 /*
+Set model settings and initialize our chat history.
+*/
+
+// Assign our model and starter messages
+const model = "google/gemini-2.0-flash-001";
+const systemMessage = "You are a helpful assistant.";
+
+// Initialize our chat history
+const chatHistory: (
+	| SystemMessage
+	| UserMessage
+	| AssistantMessage
+	| ToolMessage
+)[] = [{ role: "system", content: systemMessage } as SystemMessage];
+
+/*
 Define our various Interfaces for working with Tool Responses.
 */
 
@@ -94,18 +110,6 @@ interface GutenbergResponse {
 	results: GutenbergBook[];
 	// Include other fields if needed
 }
-
-// Assign our model and starter messages
-const model = "google/gemini-2.0-flash-001";
-const systemMessage = "You are a helpful assistant.";
-
-// Initialize our chat history
-const chatHistory: (
-	| SystemMessage
-	| UserMessage
-	| AssistantMessage
-	| ToolMessage
-)[] = [{ role: "system", content: systemMessage }];
 
 /*
 Define our Tools.
