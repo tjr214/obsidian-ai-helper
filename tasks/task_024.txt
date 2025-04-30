@@ -1,0 +1,11 @@
+# Task ID: 24
+# Title: Add Tool Call Detection in Streaming Mode
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Implement a mechanism to detect when the AI is making tool calls within a streaming response and handle them appropriately.
+# Details:
+Extend the StreamResponseAccumulator to: 1) Detect tool call objects in the streaming response, 2) Extract tool call parameters and metadata, 3) Signal when a complete tool call has been received, 4) Maintain a list of pending and completed tool calls, 5) Handle multiple tool calls in a single response. Create a ToolCallDetector utility that can identify partial and complete tool calls in the stream data. Ensure compatibility with the existing tool execution framework.
+
+# Test Strategy:
+Create test cases with mock streaming responses containing tool calls. Verify detection of complete and partial tool calls. Test with multiple tool calls in a single response and tool calls split across multiple chunks.
