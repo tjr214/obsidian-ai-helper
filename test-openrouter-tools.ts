@@ -274,9 +274,9 @@ async function runBasicAgentLoop(
 			if (TOOL_MAPPING[toolName]) {
 				// Print status message for tool call
 				console.log(
-					`Calling \`${toolName}\` with args: ${JSON.stringify(
+					`\x1b[36m🔧 Calling \`${toolName}\` with args: ${JSON.stringify(
 						toolArgs.search_terms
-					)}`
+					)} 🚀\x1b[0m`
 				);
 				const toolResponse = await TOOL_MAPPING[toolName](
 					toolArgs.search_terms
