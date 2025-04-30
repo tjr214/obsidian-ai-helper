@@ -1,1 +1,1 @@
-Tool-Calling is working with OpenRouter! Just got it to display a little status text when using a tool. Still need to add in a little user-input loop, get reasoning working, and get streaming working!
+Added the user-input loop! Next up --> get reasoning working, and get streaming working!
