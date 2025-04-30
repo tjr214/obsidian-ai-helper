@@ -142,6 +142,16 @@ interface ToolCall {
 	};
 }
 
+// Define the interface for tool call delta in streaming responses
+interface ToolCallDelta {
+	index: number;
+	id?: string;
+	function?: {
+		name?: string;
+		arguments?: string;
+	};
+}
+
 /**
  * Manages UI updates during streaming responses
  * Provides mechanisms for updating UI components and tracking stream state
@@ -423,19 +433,19 @@ class StreamProcessor {
 
 		// Process tool calls if present
 		if (delta.tool_calls) {
-			// Initialize tool_calls array if not present
-			if (!this.assistantMessage.tool_calls) {
-				this.assistantMessage.tool_calls = [];
-			}
-
 			// Process each tool call
-			delta.tool_calls.forEach((toolCallDelta: any) => {
+			delta.tool_calls.forEach((toolCallDelta: ToolCallDelta) => {
 				if (toolCallDelta.index !== undefined) {
 					const index = toolCallDelta.index;
 
+					// Initialize tool_calls array if not present
+					if (!this.assistantMessage.tool_calls) {
+						this.assistantMessage.tool_calls = [];
+					}
+
 					// Create a new tool call if needed
-					if (!this.assistantMessage.tool_calls![index]) {
-						this.assistantMessage.tool_calls![index] = {
+					if (!this.assistantMessage.tool_calls[index]) {
+						this.assistantMessage.tool_calls[index] = {
 							id: toolCallDelta.id || "",
 							function: {
 								name: "",
@@ -446,19 +456,19 @@ class StreamProcessor {
 
 					// Update the tool call with new information
 					if (toolCallDelta.id) {
-						this.assistantMessage.tool_calls![index].id =
+						this.assistantMessage.tool_calls[index].id =
 							toolCallDelta.id;
 					}
 
 					if (toolCallDelta.function) {
 						if (toolCallDelta.function.name) {
-							this.assistantMessage.tool_calls![
+							this.assistantMessage.tool_calls[
 								index
 							].function.name = toolCallDelta.function.name;
 						}
 
 						if (toolCallDelta.function.arguments) {
-							this.assistantMessage.tool_calls![
+							this.assistantMessage.tool_calls[
 								index
 							].function.arguments +=
 								toolCallDelta.function.arguments;
@@ -468,7 +478,7 @@ class StreamProcessor {
 					// Call tool call handler if provided
 					if (this.events.onToolCall) {
 						this.events.onToolCall(
-							this.assistantMessage.tool_calls![index]
+							this.assistantMessage.tool_calls[index]
 						);
 					}
 				}
