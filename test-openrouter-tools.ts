@@ -57,8 +57,8 @@ Define our various Interfaces for working with Responses from the Agentic Loop..
 */
 
 // Define the interface for the response from the agentic loop
-interface AgentResponse {
-	response: Message;
+interface AgentMessage {
+	content: Message;
 	id?: string;
 	provider?: string;
 	model?: string;
@@ -80,12 +80,14 @@ const model = "google/gemini-2.0-flash-001";
 const systemMessage = "You are a helpful assistant.";
 
 // Initialize our chat history
-const chatHistory: (
-	| SystemMessage
-	| UserMessage
-	| AssistantMessage
-	| ToolMessage
-)[] = [{ role: "system", content: systemMessage } as SystemMessage];
+const chatHistory: AgentMessage[] = [
+	{
+		content: { role: "system", content: systemMessage } as SystemMessage,
+		id: "system-message",
+		provider: "Deez Nuts",
+		model,
+	},
+];
 
 /*
 Define our various Interfaces for working with Tool Responses.
@@ -169,19 +171,28 @@ const TOOL_MAPPING: Record<string, (args: string[]) => Promise<Book[]>> = {
 /* ------------------------------------------------------------ */
 async function runBasicAgentLoop(
 	userQuery: string,
-	messages: Message[]
-): Promise<AgentResponse[]> {
-	const agentResponseArray: AgentResponse[] = [];
+	messages: AgentMessage[]
+): Promise<AgentMessage[]> {
+	const agentResponseArray: AgentMessage[] = [];
+	const _messages: Message[] = [];
 
 	const initialUserQuery = {
 		role: "user",
 		content: userQuery,
 	} as UserMessage;
 
+	// Extract the content from each message into a format that the LLM API can use
+	messages.forEach((message) => {
+		_messages.push(message.content);
+	});
+
 	// Add the user query to messages
-	const updatedMessages: Message[] = [...messages, initialUserQuery];
+	const updatedMessages: Message[] = [..._messages, initialUserQuery];
 	agentResponseArray.push({
-		response: initialUserQuery,
+		content: initialUserQuery,
+		id: "user-message",
+		provider: "Deez Nuts",
+		model,
 	});
 
 	// Make the initial call to the LLM
@@ -216,7 +227,7 @@ async function runBasicAgentLoop(
 
 		// We got a response so add the initial response to the agent response array
 		agentResponseArray.push({
-			response: assistantMessage,
+			content: assistantMessage,
 			id: initialData.id,
 			provider: initialData.provider,
 			model: initialData.model,
@@ -233,7 +244,7 @@ async function runBasicAgentLoop(
 	} else {
 		// We didn't get a response so add an error response to the agent response array
 		agentResponseArray.push({
-			response: {
+			content: {
 				role: "assistant",
 				content: "Error: Failed to get a response from the model",
 			} as AssistantMessage,
@@ -293,7 +304,7 @@ async function runBasicAgentLoop(
 		) {
 			// We got a response to our tool-call response, so add the secondary Tool-Calling response to the agent response array
 			agentResponseArray.push({
-				response: finalData.choices[0].message as AssistantMessage,
+				content: finalData.choices[0].message as AssistantMessage,
 				id: finalData.id,
 				provider: finalData.provider,
 				model: finalData.model,
@@ -311,7 +322,7 @@ async function runBasicAgentLoop(
 		} else {
 			console.error("Unexpected response format:", finalData);
 			agentResponseArray.push({
-				response: {
+				content: {
 					role: "assistant",
 					content:
 						"Error: Failed to get a proper response from the model during Tool-Calling",
@@ -330,7 +341,7 @@ Helper Function.
 */
 
 // Function to print formatted chat history
-function printChatHistory(messages: Message[]): void {
+function printChatHistory(messages: AgentMessage[]): void {
 	console.log("\n----- CHAT HISTORY -----\n");
 
 	messages.forEach((message, index) => {
@@ -338,7 +349,7 @@ function printChatHistory(messages: Message[]): void {
 		let roleLabel = "";
 
 		// Set colors and labels based on role
-		switch (message.role) {
+		switch (message.content.role) {
 			case "system":
 				roleColor = "\x1b[35m"; // Magenta for system
 				roleLabel = "SYSTEM";
@@ -368,19 +379,22 @@ function printChatHistory(messages: Message[]): void {
 		console.log(`${roleColor}${message.content}${resetColor}`);
 
 		// Print tool calls if they exist
-		if (message.role === "assistant" && message.tool_calls) {
+		if (
+			message.content.role === "assistant" &&
+			message.content.tool_calls
+		) {
 			console.log(`\x1b[33m[TOOL CALLS]:${resetColor}`);
-			message.tool_calls.forEach((toolCall) => {
+			message.content.tool_calls.forEach((toolCall) => {
 				console.log(`  - Function: ${toolCall.function.name}`);
 				console.log(`  - Arguments: ${toolCall.function.arguments}`);
 			});
 		}
 
 		// Print tool response details if it's a tool message
-		if (message.role === "tool") {
+		if (message.content.role === "tool") {
 			console.log(`${roleColor}[TOOL DETAILS]:${resetColor}`);
-			console.log(`  - Tool Call ID: ${message.tool_call_id}`);
-			console.log(`  - Tool Name: ${message.name}`);
+			console.log(`  - Tool Call ID: ${message.content.tool_call_id}`);
+			console.log(`  - Tool Name: ${message.content.name}`);
 		}
 
 		console.log("\n---\n");
@@ -398,8 +412,8 @@ runBasicAgentLoop("What are some books by Charles Darwin?", chatHistory)
 	.then((responseArray) => {
 		// Process and add all responses from the agent loop to chat history
 		responseArray.forEach((agentResponse) => {
-			if (agentResponse.response) {
-				chatHistory.push(agentResponse.response);
+			if (agentResponse.content) {
+				chatHistory.push(agentResponse);
 			}
 		});
 
