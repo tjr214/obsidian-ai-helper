@@ -464,6 +464,8 @@ async function executeAgentLoop(
 Execute the tools demo / test.
 */
 
+const enableStreaming = true;
+
 // Example usage of the executeAgentLoop function
 async function runMain() {
 	// Create readline interface for user input
@@ -504,7 +506,7 @@ async function runMain() {
 				userInput,
 				chatHistory,
 				llm_model,
-				false
+				enableStreaming
 			);
 
 			// Print the chat history
