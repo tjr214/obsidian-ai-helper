@@ -88,6 +88,8 @@ const chatHistory: AgentMessage[] = [
 		content: { role: "system", content: systemMessage } as SystemMessage,
 		id: "system-message",
 		provider: "The Developer",
+		model: llm_model,
+		datetime: new Date(),
 	},
 ];
 
@@ -197,6 +199,7 @@ async function runBasicAgentLoop(
 		id: "user-message",
 		provider: "Human Input",
 		model: "my-human-brain-100T-sft-rl",
+		datetime: new Date(),
 	});
 
 	// Make the initial call to the LLM
@@ -245,6 +248,7 @@ async function runBasicAgentLoop(
 			didUseTools:
 				initialData.choices &&
 				initialData.choices[0].finish_reason === "tool_calls",
+			datetime: new Date(),
 		});
 	} else {
 		// We didn't get a response so add an error response to the agent response array
@@ -253,6 +257,7 @@ async function runBasicAgentLoop(
 				role: "assistant",
 				content: "Error: Failed to get a response from the model",
 			} as AssistantMessage,
+			datetime: new Date(),
 		});
 		return agentResponseArray; //return because we are erroring out
 	}
@@ -323,6 +328,7 @@ async function runBasicAgentLoop(
 				didUseTools:
 					finalData.choices &&
 					finalData.choices[0].finish_reason === "tool_calls",
+				datetime: new Date(),
 			});
 			return agentResponseArray;
 		} else {
@@ -333,6 +339,7 @@ async function runBasicAgentLoop(
 					content:
 						"Error: Failed to get a proper response from the model during Tool-Calling",
 				} as AssistantMessage,
+				datetime: new Date(),
 			});
 			return agentResponseArray;
 		}
@@ -378,7 +385,9 @@ function printChatHistory(messages: AgentMessage[]): void {
 
 		// Print the message with role and content
 		console.log(
-			`${roleColor}[${roleLabel}]${resetColor} Message #${index + 1}:`
+			`${roleColor}[${roleLabel} @ ${
+				message.datetime
+			}]${resetColor} Message #${index + 1}:`
 		);
 
 		// Print content
