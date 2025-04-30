@@ -34,6 +34,8 @@ interface UserMessage {
 interface AssistantMessage {
 	role: "assistant";
 	content: string;
+	refusal?: string | null;
+	reasoning?: string | null;
 	tool_calls?: {
 		id: string;
 		function: {
@@ -76,7 +78,7 @@ Set model settings and initialize our chat history.
 */
 
 // Assign our model and starter messages
-const model = "google/gemini-2.0-flash-001";
+const llm_model = "google/gemini-2.0-flash-001";
 const systemMessage = "You are a helpful assistant.";
 
 // Initialize our chat history
@@ -84,8 +86,7 @@ const chatHistory: AgentMessage[] = [
 	{
 		content: { role: "system", content: systemMessage } as SystemMessage,
 		id: "system-message",
-		provider: "Deez Nuts",
-		model,
+		provider: "The Developer",
 	},
 ];
 
@@ -171,7 +172,9 @@ const TOOL_MAPPING: Record<string, (args: string[]) => Promise<Book[]>> = {
 /* ------------------------------------------------------------ */
 async function runBasicAgentLoop(
 	userQuery: string,
-	messages: AgentMessage[]
+	messages: AgentMessage[],
+	model: string,
+	stream = false
 ): Promise<AgentMessage[]> {
 	const agentResponseArray: AgentMessage[] = [];
 	const _messages: Message[] = [];
@@ -191,8 +194,8 @@ async function runBasicAgentLoop(
 	agentResponseArray.push({
 		content: initialUserQuery,
 		id: "user-message",
-		provider: "Deez Nuts",
-		model,
+		provider: "Human Input",
+		model: "my-human-brain-100T-sft-rl",
 	});
 
 	// Make the initial call to the LLM
@@ -208,6 +211,7 @@ async function runBasicAgentLoop(
 				model,
 				tools: llm_tools,
 				messages: updatedMessages,
+				stream,
 			}),
 		}
 	);
@@ -291,6 +295,7 @@ async function runBasicAgentLoop(
 					model,
 					messages: updatedMessages,
 					tools: llm_tools,
+					stream,
 				}),
 			}
 		);
@@ -376,7 +381,7 @@ function printChatHistory(messages: AgentMessage[]): void {
 		);
 
 		// Print content
-		console.log(`${roleColor}${message.content}${resetColor}`);
+		console.log(`${roleColor}${message.content.content}${resetColor}`);
 
 		// Print tool calls if they exist
 		if (
@@ -408,7 +413,11 @@ Execute the test.
 */
 
 // Call the function to execute the test
-runBasicAgentLoop("What are some books by Charles Darwin?", chatHistory)
+runBasicAgentLoop(
+	"What are some books by Charles Darwin?",
+	chatHistory,
+	llm_model
+)
 	.then((responseArray) => {
 		// Process and add all responses from the agent loop to chat history
 		responseArray.forEach((agentResponse) => {
@@ -418,7 +427,7 @@ runBasicAgentLoop("What are some books by Charles Darwin?", chatHistory)
 		});
 
 		console.log("Test completed successfully");
-		console.log("Final response added to chat history:", responseArray);
+		console.log("Final response added to chat history:", chatHistory);
 
 		// Print the chat history using the new function
 		printChatHistory(chatHistory);
