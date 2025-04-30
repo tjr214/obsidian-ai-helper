@@ -53,7 +53,26 @@ interface ToolMessage {
 type Message = SystemMessage | UserMessage | AssistantMessage | ToolMessage;
 
 /*
-Define our various Interfaces for working with Responses.
+Define our various Interfaces for working with Responses from the Agentic Loop..
+*/
+
+// Define the interface for the response from the agentic loop
+interface AgentResponse {
+	response: Message;
+	id?: string;
+	provider?: string;
+	model?: string;
+	object?: string;
+	usage?: {
+		promptTokens?: number;
+		completionTokens?: number;
+		totalTokens?: number;
+	};
+	didUseTools?: boolean;
+}
+
+/*
+Define our various Interfaces for working with Tool Responses.
 */
 
 // Define the Book interface
@@ -147,15 +166,19 @@ const TOOL_MAPPING: Record<string, (args: string[]) => Promise<Book[]>> = {
 async function runBasicAgentLoop(
 	userQuery: string,
 	messages: Message[]
-): Promise<string> {
+): Promise<AgentResponse[]> {
+	const agentResponseArray: AgentResponse[] = [];
+
+	const initialUserQuery = {
+		role: "user",
+		content: userQuery,
+	} as UserMessage;
+
 	// Add the user query to messages
-	const updatedMessages: Message[] = [
-		...messages,
-		{
-			role: "user",
-			content: userQuery,
-		} as UserMessage,
-	];
+	const updatedMessages: Message[] = [...messages, initialUserQuery];
+	agentResponseArray.push({
+		response: initialUserQuery,
+	});
 
 	// Make the initial call to the LLM
 	const initialQueryResponse = await fetch(
@@ -175,7 +198,7 @@ async function runBasicAgentLoop(
 	);
 
 	const initialData = await initialQueryResponse.json();
-	console.log("Initial LLM Response:", initialData);
+	// console.log("Initial LLM Response:", initialData);
 
 	// Extract assistant message
 	let assistantMessage: AssistantMessage | null = null;
@@ -186,8 +209,32 @@ async function runBasicAgentLoop(
 	) {
 		assistantMessage = initialData.choices[0].message as AssistantMessage;
 		updatedMessages.push(assistantMessage);
+
+		// We got a response so add the initial response to the agent response array
+		agentResponseArray.push({
+			response: assistantMessage,
+			id: initialData.id,
+			provider: initialData.provider,
+			model: initialData.model,
+			object: initialData.object,
+			usage: {
+				promptTokens: initialData.usage?.prompt_tokens || 0,
+				completionTokens: initialData.usage?.completion_tokens || 0,
+				totalTokens: initialData.usage?.total_tokens || 0,
+			},
+			didUseTools:
+				initialData.choices &&
+				initialData.choices[0].finish_reason === "tool_calls",
+		});
 	} else {
-		return "Error: Failed to get a response from the model";
+		// We didn't get a response so add an error response to the agent response array
+		agentResponseArray.push({
+			response: {
+				role: "assistant",
+				content: "Error: Failed to get a response from the model",
+			} as AssistantMessage,
+		});
+		return agentResponseArray; //return because we are erroring out
 	}
 
 	// Process the requested tool calls if any exist
@@ -212,7 +259,7 @@ async function runBasicAgentLoop(
 					tool_call_id: toolCall.id,
 					name: toolName,
 					content: JSON.stringify(toolResponse),
-				});
+				} as ToolMessage);
 			}
 		}
 
@@ -234,27 +281,108 @@ async function runBasicAgentLoop(
 		);
 
 		const finalData = await secondToolCallResponse.json();
+
 		if (
 			finalData.choices &&
 			finalData.choices[0] &&
 			finalData.choices[0].message
 		) {
-			const finalContent = finalData.choices[0].message.content;
-			// console.log("Final Response:", finalContent);
-			return finalContent;
+			// We got a response to our tool-call response, so add the secondary Tool-Calling response to the agent response array
+			agentResponseArray.push({
+				response: finalData.choices[0].message as AssistantMessage,
+				id: finalData.id,
+				provider: finalData.provider,
+				model: finalData.model,
+				object: finalData.object,
+				usage: {
+					promptTokens: finalData.usage?.prompt_tokens || 0,
+					completionTokens: finalData.usage?.completion_tokens || 0,
+					totalTokens: finalData.usage?.total_tokens || 0,
+				},
+				didUseTools:
+					finalData.choices &&
+					finalData.choices[0].finish_reason === "tool_calls",
+			});
+			return agentResponseArray;
 		} else {
 			console.error("Unexpected response format:", finalData);
-			return "Error: Failed to get a proper response from the model";
+			agentResponseArray.push({
+				response: {
+					role: "assistant",
+					content:
+						"Error: Failed to get a proper response from the model during Tool-Calling",
+				} as AssistantMessage,
+			});
+			return agentResponseArray;
 		}
 	}
 
 	// If no tool calls were made, return the initial assistant response
-	if (assistantMessage.content) {
-		// console.log("Direct Response:", assistantMessage.content);
-		return assistantMessage.content;
-	}
+	return agentResponseArray;
+}
 
-	return "Error: No content found in the assistant's response";
+/*
+Helper Function.
+*/
+
+// Function to print formatted chat history
+function printChatHistory(messages: Message[]): void {
+	console.log("\n----- CHAT HISTORY -----\n");
+
+	messages.forEach((message, index) => {
+		let roleColor = "";
+		let roleLabel = "";
+
+		// Set colors and labels based on role
+		switch (message.role) {
+			case "system":
+				roleColor = "\x1b[35m"; // Magenta for system
+				roleLabel = "SYSTEM";
+				break;
+			case "user":
+				roleColor = "\x1b[32m"; // Green for user
+				roleLabel = "USER";
+				break;
+			case "assistant":
+				roleColor = "\x1b[34m"; // Blue for assistant
+				roleLabel = "ASSISTANT";
+				break;
+			case "tool":
+				roleColor = "\x1b[33m"; // Yellow for tool
+				roleLabel = "TOOL";
+				break;
+		}
+
+		const resetColor = "\x1b[0m";
+
+		// Print the message with role and content
+		console.log(
+			`${roleColor}[${roleLabel}]${resetColor} Message #${index + 1}:`
+		);
+
+		// Print content
+		console.log(`${roleColor}${message.content}${resetColor}`);
+
+		// Print tool calls if they exist
+		if (message.role === "assistant" && message.tool_calls) {
+			console.log(`\x1b[33m[TOOL CALLS]:${resetColor}`);
+			message.tool_calls.forEach((toolCall) => {
+				console.log(`  - Function: ${toolCall.function.name}`);
+				console.log(`  - Arguments: ${toolCall.function.arguments}`);
+			});
+		}
+
+		// Print tool response details if it's a tool message
+		if (message.role === "tool") {
+			console.log(`${roleColor}[TOOL DETAILS]:${resetColor}`);
+			console.log(`  - Tool Call ID: ${message.tool_call_id}`);
+			console.log(`  - Tool Name: ${message.name}`);
+		}
+
+		console.log("\n---\n");
+	});
+
+	console.log("----- END OF CHAT HISTORY -----");
 }
 
 /*
@@ -263,13 +391,18 @@ Execute the test.
 
 // Call the function to execute the test
 runBasicAgentLoop("What are some books by Charles Darwin?", chatHistory)
-	.then((responseText) => {
-		// Add the response to chat history
-		chatHistory.push({
-			role: "assistant",
-			content: responseText,
+	.then((responseArray) => {
+		// Process and add all responses from the agent loop to chat history
+		responseArray.forEach((agentResponse) => {
+			if (agentResponse.response) {
+				chatHistory.push(agentResponse.response);
+			}
 		});
+
 		console.log("Test completed successfully");
-		console.log("Final response added to chat history:", responseText);
+		console.log("Final response added to chat history:", responseArray);
+
+		// Print the chat history using the new function
+		printChatHistory(chatHistory);
 	})
 	.catch((error) => console.error("Error executing test:", error));
