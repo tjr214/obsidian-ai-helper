@@ -388,7 +388,7 @@ function printChatHistory(messages: AgentMessage[]): void {
 				break;
 		}
 
-		const resetColor = "\x1b[0m";
+		const resetColor = "\x1b[0m"; // Reset color
 
 		// Print the message with role and content
 		console.log(
