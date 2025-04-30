@@ -11,7 +11,7 @@ Create a streaming response handler that processes chunks of text as they arrive
 Test with mock streams to verify correct parsing of different response types. Validate that partial responses display correctly and that the complete response is assembled properly. Test edge cases like empty streams, interrupted connections, and malformed responses.
 
 # Subtasks:
-## 1. Modify fetch requests to support streaming responses [pending]
+## 1. Modify fetch requests to support streaming responses [in-progress]
 ### Dependencies: None
 ### Description: Update the existing fetch implementation to support streaming responses from OpenRouter API by configuring the appropriate headers and response handling options.
 ### Details:

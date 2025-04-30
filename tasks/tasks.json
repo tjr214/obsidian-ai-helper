@@ -290,7 +290,7 @@
           "description": "Update the existing fetch implementation to support streaming responses from OpenRouter API by configuring the appropriate headers and response handling options.",
           "dependencies": [],
           "details": "1. Modify the fetch request configuration to include 'stream: true' in the request options.\n2. Set the appropriate headers for streaming: 'Accept: text/event-stream'.\n3. Update the fetch call to handle the response as a ReadableStream instead of JSON.\n4. Create a basic wrapper function that takes a prompt and returns a ReadableStream.\n5. Test the implementation by making a simple request and confirming that a ReadableStream is returned rather than a complete response.\n6. Handle basic error cases such as network failures or invalid API responses.\n7. Test with mock data to ensure the streaming connection is properly established.",
-          "status": "pending",
+          "status": "in-progress",
           "parentTaskId": 12
         },
         {
