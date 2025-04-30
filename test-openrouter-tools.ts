@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import readline from "readline";
 
 /*
 Load environment variables from .env file.
@@ -465,8 +466,25 @@ Execute the tools demo / test.
 
 // Example usage of the executeAgentLoop function
 async function runMain() {
+	// Create readline interface for user input
+	const rl = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
+
+	// Prompt the user for input
+	const userInput = await new Promise<string>((resolve) => {
+		rl.question("Enter your query: ", (answer) => {
+			resolve(answer);
+		});
+	});
+
+	// Close the readline interface
+	rl.close();
+
+	// Execute the agent loop with user input
 	chatHistory = await executeAgentLoop(
-		"What are some books by Charles Darwin?",
+		userInput,
 		chatHistory,
 		llm_model,
 		false
