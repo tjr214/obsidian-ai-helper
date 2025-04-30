@@ -327,7 +327,41 @@
       ],
       "priority": "high",
       "details": "Extend the streaming handler to detect when the AI is making a tool call within a streaming response. Implement logic to pause the display of the response, execute the tool call, and then resume the streaming with the tool results incorporated. Create a queue system for handling multiple tool calls within a single response. Ensure that tool calls are properly formatted and validated before execution.",
-      "testStrategy": "Create test scenarios with simulated tool calls in streaming responses. Verify that tool calls are correctly identified, executed, and their results incorporated into the ongoing response. Test with multiple sequential tool calls and concurrent tool calls."
+      "testStrategy": "Create test scenarios with simulated tool calls in streaming responses. Verify that tool calls are correctly identified, executed, and their results incorporated into the ongoing response. Test with multiple sequential tool calls and concurrent tool calls.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement Tool Call Detection in Streaming Handler",
+          "description": "Extend the streaming handler to detect when the AI is making a tool call within a streaming response and identify the tool call structure.",
+          "dependencies": [],
+          "details": "1. Modify the streaming handler to parse incoming chunks for tool call patterns.\n2. Create a pattern matching system to identify the start and end of tool call JSON structures in the stream.\n3. Implement a buffer system to accumulate partial tool call data across multiple chunks.\n4. Add logic to detect when a complete tool call has been received.\n5. Create a data structure to store detected tool calls with their parameters.\n6. Add validation to ensure the detected tool call has the required fields (name, parameters).\n7. Test with mock streaming responses containing tool calls to verify detection accuracy.\n8. Ensure the detection works with different formatting patterns and partial chunks.",
+          "status": "pending",
+          "parentTaskId": 13
+        },
+        {
+          "id": 2,
+          "title": "Create Tool Call Queue and Execution System",
+          "description": "Implement a queue system for managing multiple tool calls and execute them in the proper order.",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Design a queue data structure to store detected tool calls from subtask 1.\n2. Implement pause/resume functionality in the streaming handler to halt display when a tool call is detected.\n3. Create a tool call executor that can process the tool call with the appropriate function.\n4. Implement a registry system to map tool call names to their handler functions.\n5. Add error handling for failed tool executions.\n6. Create a mechanism to track the state of each tool call (pending, executing, completed, failed).\n7. Implement priority handling if certain tool calls need to be processed before others.\n8. Test the queue system with multiple sequential and nested tool calls to ensure proper execution order.",
+          "status": "pending",
+          "parentTaskId": 13
+        },
+        {
+          "id": 3,
+          "title": "Integrate Tool Results into Streaming Response",
+          "description": "Resume streaming with tool results incorporated into the response and handle the continuation of the stream.",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "1. Develop a mechanism to format tool execution results in a way that can be inserted into the stream.\n2. Implement logic to resume streaming after tool execution is complete.\n3. Create a system to inject tool results at the appropriate position in the stream.\n4. Handle cases where the AI response continues after a tool call with proper formatting.\n5. Implement special handling for nested tool calls (tool calls that depend on results of previous tool calls).\n6. Add visual indicators in the UI to show when tool calls are being processed.\n7. Create a fallback mechanism for when tool calls fail or timeout.\n8. Test the complete flow from detection to execution to resumption with various complex scenarios.\n9. Ensure the user experience remains smooth with minimal disruption during tool call processing.",
+          "status": "pending",
+          "parentTaskId": 13
+        }
+      ]
     },
     {
       "id": 14,

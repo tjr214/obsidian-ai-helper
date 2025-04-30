@@ -9,3 +9,45 @@ Extend the streaming handler to detect when the AI is making a tool call within 
 
 # Test Strategy:
 Create test scenarios with simulated tool calls in streaming responses. Verify that tool calls are correctly identified, executed, and their results incorporated into the ongoing response. Test with multiple sequential tool calls and concurrent tool calls.
+
+# Subtasks:
+## 1. Implement Tool Call Detection in Streaming Handler [pending]
+### Dependencies: None
+### Description: Extend the streaming handler to detect when the AI is making a tool call within a streaming response and identify the tool call structure.
+### Details:
+1. Modify the streaming handler to parse incoming chunks for tool call patterns.
+2. Create a pattern matching system to identify the start and end of tool call JSON structures in the stream.
+3. Implement a buffer system to accumulate partial tool call data across multiple chunks.
+4. Add logic to detect when a complete tool call has been received.
+5. Create a data structure to store detected tool calls with their parameters.
+6. Add validation to ensure the detected tool call has the required fields (name, parameters).
+7. Test with mock streaming responses containing tool calls to verify detection accuracy.
+8. Ensure the detection works with different formatting patterns and partial chunks.
+
+## 2. Create Tool Call Queue and Execution System [pending]
+### Dependencies: 13.1
+### Description: Implement a queue system for managing multiple tool calls and execute them in the proper order.
+### Details:
+1. Design a queue data structure to store detected tool calls from subtask 1.
+2. Implement pause/resume functionality in the streaming handler to halt display when a tool call is detected.
+3. Create a tool call executor that can process the tool call with the appropriate function.
+4. Implement a registry system to map tool call names to their handler functions.
+5. Add error handling for failed tool executions.
+6. Create a mechanism to track the state of each tool call (pending, executing, completed, failed).
+7. Implement priority handling if certain tool calls need to be processed before others.
+8. Test the queue system with multiple sequential and nested tool calls to ensure proper execution order.
+
+## 3. Integrate Tool Results into Streaming Response [pending]
+### Dependencies: 13.1, 13.2
+### Description: Resume streaming with tool results incorporated into the response and handle the continuation of the stream.
+### Details:
+1. Develop a mechanism to format tool execution results in a way that can be inserted into the stream.
+2. Implement logic to resume streaming after tool execution is complete.
+3. Create a system to inject tool results at the appropriate position in the stream.
+4. Handle cases where the AI response continues after a tool call with proper formatting.
+5. Implement special handling for nested tool calls (tool calls that depend on results of previous tool calls).
+6. Add visual indicators in the UI to show when tool calls are being processed.
+7. Create a fallback mechanism for when tool calls fail or timeout.
+8. Test the complete flow from detection to execution to resumption with various complex scenarios.
+9. Ensure the user experience remains smooth with minimal disruption during tool call processing.
+
