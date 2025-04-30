@@ -273,6 +273,289 @@
           "parentTaskId": 11
         }
       ]
+<<<<<<< HEAD
+=======
+    },
+    {
+      "id": 12,
+      "title": "Implement Streaming Response Handler",
+      "description": "Modify the existing code to properly handle streaming responses from OpenRouter API, allowing for real-time display of AI responses.",
+      "status": "done",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Create a streaming response handler that processes chunks of text as they arrive from the OpenRouter API. Modify the fetch requests to use the ReadableStream API and implement proper event listeners for data chunks. Ensure the handler can parse JSON objects from the stream and extract text content, tool calls, and other relevant information. Include mechanisms to update the UI as new content arrives and handle stream completion events.",
+      "testStrategy": "Test with mock streams to verify correct parsing of different response types. Validate that partial responses display correctly and that the complete response is assembled properly. Test edge cases like empty streams, interrupted connections, and malformed responses.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Modify fetch requests to support streaming responses",
+          "description": "Update the existing fetch implementation to support streaming responses from OpenRouter API by configuring the appropriate headers and response handling options.",
+          "dependencies": [],
+          "details": "1. Modify the fetch request configuration to include 'stream: true' in the request options.\n2. Set the appropriate headers for streaming: 'Accept: text/event-stream'.\n3. Update the fetch call to handle the response as a ReadableStream instead of JSON.\n4. Create a basic wrapper function that takes a prompt and returns a ReadableStream.\n5. Test the implementation by making a simple request and confirming that a ReadableStream is returned rather than a complete response.\n6. Handle basic error cases such as network failures or invalid API responses.\n7. Test with mock data to ensure the streaming connection is properly established.",
+          "status": "done",
+          "parentTaskId": 12
+        },
+        {
+          "id": 2,
+          "title": "Implement stream processing and chunk parsing logic",
+          "description": "Create a handler that can process the incoming stream, parse the chunks of data, and extract the relevant information from each chunk.",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Create a StreamProcessor class/function that takes a ReadableStream as input.\n2. Implement the logic to read chunks from the stream using a TextDecoder to convert Uint8Array to text.\n3. Parse each chunk to identify the data format (typically 'data: {...}' lines in SSE format).\n4. Extract the JSON payload from each chunk and handle potential parsing errors.\n5. Implement logic to identify different types of content in the chunks (text content, tool calls, function calls, etc.).\n6. Create a normalized data structure for each processed chunk that will be easy to consume by the UI.\n7. Implement proper handling of special messages like '[DONE]' that indicate stream completion.\n8. Add logging for debugging purposes.\n9. Test with real API responses to ensure correct parsing of different message formats.",
+          "status": "done",
+          "parentTaskId": 12
+        },
+        {
+          "id": 3,
+          "title": "Implement UI update mechanism for streaming content",
+          "description": "Create a system to update the UI in real-time as new content arrives from the stream, handling both text updates and any special content types.",
+          "dependencies": [
+            2
+          ],
+          "details": "1. Create an event-based system or callback mechanism that notifies the UI when new content is available.\n2. Implement a content accumulator that builds the complete response as chunks arrive.\n3. Add logic to handle different content types (text, code blocks, tool calls) and update the UI appropriately for each.\n4. Implement debouncing or throttling to prevent too-frequent UI updates that might cause performance issues.\n5. Add visual indicators for streaming status (starting, in progress, completed).\n6. Handle edge cases such as stream interruptions or errors during streaming.\n7. Implement a completion callback that fires when the stream is fully processed.\n8. Add the ability to cancel an ongoing stream if the user requests it.\n9. Test the complete flow from API request through streaming to UI updates with various response types.\n10. Ensure the UI remains responsive during streaming of long responses.",
+          "status": "done",
+          "parentTaskId": 12
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Develop Tool Call Processing for Streaming Responses",
+      "description": "Enhance the streaming handler to properly detect and process tool calls within streaming responses.",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Extend the streaming handler to detect when the AI is making a tool call within a streaming response. Implement logic to pause the display of the response, execute the tool call, and then resume the streaming with the tool results incorporated. Create a queue system for handling multiple tool calls within a single response. Ensure that tool calls are properly formatted and validated before execution.",
+      "testStrategy": "Create test scenarios with simulated tool calls in streaming responses. Verify that tool calls are correctly identified, executed, and their results incorporated into the ongoing response. Test with multiple sequential tool calls and concurrent tool calls.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Implement Tool Call Detection in Streaming Handler",
+          "description": "Extend the streaming handler to detect when the AI is making a tool call within a streaming response and identify the tool call structure.",
+          "dependencies": [],
+          "details": "1. Modify the streaming handler to parse incoming chunks for tool call patterns.\n2. Create a pattern matching system to identify the start and end of tool call JSON structures in the stream.\n3. Implement a buffer system to accumulate partial tool call data across multiple chunks.\n4. Add logic to detect when a complete tool call has been received.\n5. Create a data structure to store detected tool calls with their parameters.\n6. Add validation to ensure the detected tool call has the required fields (name, parameters).\n7. Test with mock streaming responses containing tool calls to verify detection accuracy.\n8. Ensure the detection works with different formatting patterns and partial chunks.",
+          "status": "pending",
+          "parentTaskId": 13
+        },
+        {
+          "id": 2,
+          "title": "Create Tool Call Queue and Execution System",
+          "description": "Implement a queue system for managing multiple tool calls and execute them in the proper order.",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Design a queue data structure to store detected tool calls from subtask 1.\n2. Implement pause/resume functionality in the streaming handler to halt display when a tool call is detected.\n3. Create a tool call executor that can process the tool call with the appropriate function.\n4. Implement a registry system to map tool call names to their handler functions.\n5. Add error handling for failed tool executions.\n6. Create a mechanism to track the state of each tool call (pending, executing, completed, failed).\n7. Implement priority handling if certain tool calls need to be processed before others.\n8. Test the queue system with multiple sequential and nested tool calls to ensure proper execution order.",
+          "status": "pending",
+          "parentTaskId": 13
+        },
+        {
+          "id": 3,
+          "title": "Integrate Tool Results into Streaming Response",
+          "description": "Resume streaming with tool results incorporated into the response and handle the continuation of the stream.",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "1. Develop a mechanism to format tool execution results in a way that can be inserted into the stream.\n2. Implement logic to resume streaming after tool execution is complete.\n3. Create a system to inject tool results at the appropriate position in the stream.\n4. Handle cases where the AI response continues after a tool call with proper formatting.\n5. Implement special handling for nested tool calls (tool calls that depend on results of previous tool calls).\n6. Add visual indicators in the UI to show when tool calls are being processed.\n7. Create a fallback mechanism for when tool calls fail or timeout.\n8. Test the complete flow from detection to execution to resumption with various complex scenarios.\n9. Ensure the user experience remains smooth with minimal disruption during tool call processing.",
+          "status": "pending",
+          "parentTaskId": 13
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Create Core Tool Framework",
+      "description": "Develop a flexible and extensible framework for defining, registering, and executing tools.",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Design and implement a tool registry system that allows for easy registration of new tools. Create interfaces for tool definitions, including parameters, return types, and validation rules. Implement a tool execution engine that can invoke the appropriate tool based on the AI's request, validate inputs and outputs, and handle errors gracefully. Include support for asynchronous tool execution and timeout handling.",
+      "testStrategy": "Create unit tests for the tool registry, tool definition validation, and tool execution engine. Test registration of multiple tools, validation of tool parameters, and proper execution of tool functions. Verify error handling for invalid tool calls and failed tool executions."
+    },
+    {
+      "id": 15,
+      "title": "Implement Web Search Tool",
+      "description": "Create a web search tool that allows the AI to retrieve information from the internet.",
+      "status": "pending",
+      "dependencies": [
+        3
+      ],
+      "priority": "medium",
+      "details": "Implement a web search tool that interfaces with a search API (such as Bing, Google, or a free alternative). Define the tool's parameters (query, result count, etc.) and return format. Handle rate limiting, error states, and result formatting. Ensure the search results are properly sanitized and formatted for inclusion in the AI's response. Consider implementing caching to improve performance and reduce API calls.",
+      "testStrategy": "Test the web search tool with various queries, including edge cases like empty queries, very long queries, and queries with special characters. Verify that results are properly formatted and that error states (API unavailable, rate limited, etc.) are handled gracefully."
+    },
+    {
+      "id": 17,
+      "title": "Implement Vault File Access Tool",
+      "description": "Create a tool that allows the AI to access and read files within the user's Obsidian vault.",
+      "status": "pending",
+      "dependencies": [
+        3
+      ],
+      "priority": "medium",
+      "details": "Implement a file access tool that can retrieve the content of files within the user's Obsidian vault. Use Obsidian's API to safely access vault files. Include parameters for specifying files by path or by search criteria. Implement proper error handling for missing files, permission issues, and other potential problems. Consider adding functionality to search across multiple files or to extract specific sections of files.",
+      "testStrategy": "Test the file access tool with various file paths, including existing files, missing files, and files with different content types. Verify that file content is correctly retrieved and formatted. Test with large files to ensure performance is acceptable."
+    },
+    {
+      "id": 20,
+      "title": "Implement Configuration and Settings UI",
+      "description": "Create settings interfaces for configuring the OpenRouter tools functionality.",
+      "status": "pending",
+      "dependencies": [
+        8
+      ],
+      "priority": "medium",
+      "details": "Design and implement settings interfaces for configuring API keys, enabling/disabling specific tools, and setting other preferences. Create a settings tab in the Obsidian settings panel for the OpenRouter tools. Implement proper validation and storage of settings. Ensure that settings changes are applied immediately where appropriate. Include help text and documentation links to assist users in configuration.",
+      "testStrategy": "Test the settings UI with various configurations, verifying that settings are correctly saved, loaded, and applied. Test validation of API keys and other critical settings. Verify that enabling/disabling tools correctly affects the available functionality."
+    },
+    {
+      "id": 21,
+      "title": "Implement Comprehensive Error Handling and Logging",
+      "description": "Enhance error handling throughout the implementation to provide a robust user experience.",
+      "status": "pending",
+      "dependencies": [
+        2,
+        3,
+        8
+      ],
+      "priority": "medium",
+      "details": "Implement comprehensive error handling for all aspects of the OpenRouter tools functionality, including API errors, tool execution failures, and UI issues. Create user-friendly error messages and recovery mechanisms. Implement a logging system for tracking errors and debugging issues. Include automatic retry mechanisms for transient errors and graceful degradation when services are unavailable.",
+      "testStrategy": "Test error handling by simulating various error conditions, including network failures, API errors, and tool execution failures. Verify that error messages are clear and helpful. Test recovery mechanisms to ensure they work as expected. Verify that logging provides sufficient information for debugging without exposing sensitive data."
+    },
+    {
+      "id": 22,
+      "title": "Create SSE Parser for OpenRouter Streaming Responses",
+      "description": "Implement a dedicated parser for Server-Sent Events (SSE) to properly handle streaming responses from OpenRouter API.",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Create a new class `SSEParser` that: 1) Takes a ReadableStream as input, 2) Uses a ReadableStream reader to process chunks as they arrive, 3) Parses individual 'data:' prefixed lines into JSON objects, 4) Handles special messages like '[DONE]' markers, 5) Emits events or callbacks for new data chunks, complete responses, and errors. Replace current `.json()` calls with this streaming approach. Include utility methods for detecting different response types within the stream.",
+      "testStrategy": "Create unit tests with mock SSE streams containing various response patterns. Verify correct parsing of single chunks, multiple chunks, tool calls, and special markers. Test with malformed data to ensure error handling works properly."
+    },
+    {
+      "id": 23,
+      "title": "Implement Streaming Response Accumulator",
+      "description": "Create a state management system to accumulate and reconstruct partial responses from the stream into complete messages.",
+      "status": "pending",
+      "dependencies": [
+        1
+      ],
+      "priority": "high",
+      "details": "Develop a `StreamResponseAccumulator` class that: 1) Maintains the current state of a partial response, 2) Processes incoming chunks from the SSEParser, 3) Reconstructs complete messages from partial chunks, 4) Handles different message types (text, tool calls, etc.), 5) Provides methods to access the current accumulated state, 6) Implements proper TypeScript interfaces for all data structures. The accumulator should handle the complexities of OpenRouter's response format, including nested content structures.",
+      "testStrategy": "Test with various streaming response patterns to verify correct accumulation of partial responses. Verify that complete messages are properly reconstructed from chunks. Test edge cases like empty chunks, out-of-order chunks, and interrupted streams."
+    },
+    {
+      "id": 24,
+      "title": "Add Tool Call Detection in Streaming Mode",
+      "description": "Implement a mechanism to detect when the AI is making tool calls within a streaming response and handle them appropriately.",
+      "status": "pending",
+      "dependencies": [
+        2
+      ],
+      "priority": "high",
+      "details": "Extend the StreamResponseAccumulator to: 1) Detect tool call objects in the streaming response, 2) Extract tool call parameters and metadata, 3) Signal when a complete tool call has been received, 4) Maintain a list of pending and completed tool calls, 5) Handle multiple tool calls in a single response. Create a ToolCallDetector utility that can identify partial and complete tool calls in the stream data. Ensure compatibility with the existing tool execution framework.",
+      "testStrategy": "Create test cases with mock streaming responses containing tool calls. Verify detection of complete and partial tool calls. Test with multiple tool calls in a single response and tool calls split across multiple chunks."
+    },
+    {
+      "id": 25,
+      "title": "Implement Stream Pause and Resume for Tool Execution",
+      "description": "Create a mechanism to pause stream processing when tools need to be called and resume after tool execution completes.",
+      "status": "pending",
+      "dependencies": [
+        3
+      ],
+      "priority": "high",
+      "details": "Develop a StreamController class that: 1) Can pause the processing of the incoming stream when a tool call is detected, 2) Maintains the stream connection while paused, 3) Executes the tool call using the existing tool execution framework, 4) Incorporates tool results into the conversation history, 5) Resumes stream processing after tool execution, 6) Handles multiple sequential tool calls. Implement proper state management to track whether the stream is active, paused, or completed.",
+      "testStrategy": "Test the pause/resume functionality with mock streams and tool calls. Verify that tool execution completes correctly during a pause. Test multiple sequential tool calls and ensure the stream properly resumes after each. Verify conversation history is correctly updated with tool results."
+    },
+    {
+      "id": 26,
+      "title": "Develop UI Rendering for Streaming Updates",
+      "description": "Implement a UI rendering approach that updates the Obsidian interface as new chunks arrive from the stream.",
+      "status": "pending",
+      "dependencies": [
+        2
+      ],
+      "priority": "medium",
+      "details": "Create a StreamingUIRenderer that: 1) Takes accumulated response data from the StreamResponseAccumulator, 2) Renders incremental updates to the Obsidian UI, 3) Handles different content types (text, code blocks, etc.), 4) Shows visual indicators during tool execution, 5) Updates smoothly without flickering or jumping, 6) Maintains cursor position appropriately. Implement debouncing to prevent too-frequent UI updates. Add visual indicators for stream status (active, paused for tool execution, completed, error).",
+      "testStrategy": "Test UI rendering with various streaming response patterns. Verify smooth updates without flickering. Test with different content types and ensure proper formatting. Verify visual indicators correctly show stream status. Test with very fast and very slow streams to ensure good performance."
+    },
+    {
+      "id": 27,
+      "title": "Implement Error Handling for Streaming Responses",
+      "description": "Enhance error handling to provide graceful degradation and clear error messages for streaming-related issues.",
+      "status": "pending",
+      "dependencies": [
+        1,
+        2
+      ],
+      "priority": "medium",
+      "details": "Create a comprehensive error handling system that: 1) Catches and categorizes different types of streaming errors (network, parsing, timeout), 2) Provides user-friendly error messages for common issues, 3) Implements automatic retry for transient errors, 4) Gracefully falls back to non-streaming mode when appropriate, 5) Logs detailed error information for troubleshooting. Add specific handlers for SSE parsing failures, network interruptions, and malformed responses. Implement a circuit breaker pattern to prevent repeated failures.",
+      "testStrategy": "Test with various error scenarios including network failures, malformed SSE data, and timeout conditions. Verify appropriate error messages are displayed. Test automatic retry functionality and fallback to non-streaming mode. Verify logging captures sufficient detail for troubleshooting."
+    },
+    {
+      "id": 28,
+      "title": "Add Stream Cancellation and Resource Cleanup",
+      "description": "Implement proper cancellation and cleanup of active streams to prevent resource leaks and allow user interruption.",
+      "status": "pending",
+      "dependencies": [
+        4
+      ],
+      "priority": "medium",
+      "details": "Enhance the StreamController to: 1) Support user-initiated cancellation of active streams, 2) Properly abort fetch requests using AbortController, 3) Clean up all resources when a stream ends or is cancelled, 4) Handle cancellation during tool execution, 5) Update UI appropriately when cancellation occurs. Implement proper event listeners for user cancellation actions. Ensure all promises are properly handled during cancellation to prevent unhandled rejections.",
+      "testStrategy": "Test cancellation at various points in the streaming process (during initial response, during tool execution, etc.). Verify all resources are properly cleaned up after cancellation. Test for memory leaks using browser dev tools. Verify UI correctly updates after cancellation."
+    },
+    {
+      "id": 29,
+      "title": "Implement Fallback Mechanism for Non-Streaming Mode",
+      "description": "Create a fallback system that can switch to non-streaming mode when streaming fails or is not supported.",
+      "status": "pending",
+      "dependencies": [
+        6
+      ],
+      "priority": "medium",
+      "details": "Develop a dual-mode system that: 1) Attempts streaming mode first, 2) Detects streaming failures or compatibility issues, 3) Automatically falls back to non-streaming mode when needed, 4) Maintains consistent behavior between modes, 5) Allows users to manually select preferred mode. Implement feature detection to determine if streaming is supported. Create a seamless transition between modes that preserves conversation context and tool functionality.",
+      "testStrategy": "Test automatic fallback when streaming fails. Verify manual mode selection works correctly. Compare results between streaming and non-streaming modes to ensure consistent behavior. Test edge cases where streaming initially works but then fails mid-response."
+    },
+    {
+      "id": 30,
+      "title": "Optimize Performance and Resource Usage",
+      "description": "Enhance the implementation to minimize memory usage, optimize token consumption, and handle rate limiting.",
+      "status": "pending",
+      "dependencies": [
+        2,
+        4,
+        7
+      ],
+      "priority": "low",
+      "details": "Implement optimizations including: 1) Efficient stream processing to minimize memory usage, 2) Token usage tracking and optimization, 3) Rate limiting awareness and backoff strategies, 4) Cleanup of large objects when no longer needed, 5) Performance monitoring for streaming operations. Add configurable parameters for chunk processing and UI update frequency. Implement memory-efficient data structures for accumulating responses. Add token counting to prevent exceeding API limits.",
+      "testStrategy": "Profile memory usage during streaming operations. Test with very large responses to verify efficient handling. Measure and compare performance before and after optimizations. Test rate limiting scenarios to verify backoff strategies work correctly."
+    },
+    {
+      "id": 31,
+      "title": "Integrate and Test Complete Streaming Workflow",
+      "description": "Integrate all components into a complete workflow and validate against acceptance criteria.",
+      "status": "pending",
+      "dependencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "priority": "high",
+      "details": "Perform final integration of all components: 1) Connect SSEParser, StreamResponseAccumulator, StreamController, and UI components, 2) Implement the complete conversation flow with streaming responses and tool calls, 3) Add configuration options for streaming behavior, 4) Create comprehensive documentation for the implementation, 5) Perform end-to-end testing against the acceptance criteria. Ensure all edge cases are handled properly. Verify that the implementation meets all requirements specified in the PRD.",
+      "testStrategy": "Conduct end-to-end testing with real OpenRouter API calls. Verify all acceptance criteria are met: streaming responses appear in real-time, tool calls work in streaming mode, SSE responses are correctly parsed, error states are handled gracefully, and streaming can be toggled on/off. Test with various conversation scenarios including complex tool usage patterns."
+>>>>>>> origin/main
     }
   ],
   "metadata": {
