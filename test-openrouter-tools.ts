@@ -479,9 +479,6 @@ async function runMain() {
 		});
 	});
 
-	// Close the readline interface
-	rl.close();
-
 	// Execute the agent loop with user input
 	chatHistory = await executeAgentLoop(
 		userInput,
@@ -490,8 +487,13 @@ async function runMain() {
 		false
 	).catch((error) => {
 		console.error("Error in main execution:", error);
+		// Close the readline interface
+		rl.close();
 		return chatHistory; // Return the original chat history on error
 	});
+
+	// Close the readline interface
+	rl.close();
 
 	// Log the chat history and print it using the function
 	console.log("Final response added to chat history:", chatHistory);
