@@ -83,7 +83,7 @@ const llm_model = "google/gemini-2.0-flash-001";
 const systemMessage = "You are a helpful assistant.";
 
 // Initialize our chat history
-const chatHistory: AgentMessage[] = [
+let chatHistory: AgentMessage[] = [
 	{
 		content: { role: "system", content: systemMessage } as SystemMessage,
 		id: "system-message",
@@ -425,27 +425,60 @@ function printChatHistory(messages: AgentMessage[]): void {
 }
 
 /*
-Execute the test.
+Function to execute the agent loop with a given input.
 */
 
-// Call the function to execute the test
-runBasicAgentLoop(
-	"What are some books by Charles Darwin?",
-	chatHistory,
-	llm_model
-)
-	.then((responseArray) => {
+async function executeAgentLoop(
+	incomingInput: string,
+	_chatHistory: AgentMessage[],
+	model: string,
+	stream = false
+): Promise<AgentMessage[]> {
+	const localChatHistory = [..._chatHistory]; // Create a local copy of chat history
+
+	try {
+		// Call the Agent Loop
+		const responseArray = await runBasicAgentLoop(
+			incomingInput,
+			localChatHistory,
+			model,
+			stream
+		);
+
 		// Process and add all responses from the agent loop to chat history
 		responseArray.forEach((agentResponse) => {
 			if (agentResponse.content) {
-				chatHistory.push(agentResponse);
+				localChatHistory.push(agentResponse);
 			}
 		});
 
-		console.log("Test completed successfully");
-		console.log("Final response added to chat history:", chatHistory);
+		return localChatHistory;
+	} catch (error) {
+		console.error("Error executing agent loop:", error);
+		throw error;
+	}
+}
 
-		// Print the chat history using the new function
-		printChatHistory(chatHistory);
-	})
-	.catch((error) => console.error("Error executing test:", error));
+/*
+Execute the tools demo / test.
+*/
+
+// Example usage of the executeAgentLoop function
+async function runMain() {
+	chatHistory = await executeAgentLoop(
+		"What are some books by Charles Darwin?",
+		chatHistory,
+		llm_model,
+		false
+	).catch((error) => {
+		console.error("Error in main execution:", error);
+		return chatHistory; // Return the original chat history on error
+	});
+
+	// Log the chat history and print it using the function
+	console.log("Final response added to chat history:", chatHistory);
+	printChatHistory(chatHistory);
+}
+
+// Run our Code
+runMain();
