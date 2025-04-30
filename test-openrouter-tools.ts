@@ -71,6 +71,7 @@ interface AgentMessage {
 		totalTokens?: number;
 	};
 	didUseTools?: boolean;
+	datetime?: Date;
 }
 
 /*
