@@ -472,31 +472,57 @@ async function runMain() {
 		output: process.stdout,
 	});
 
-	// Prompt the user for input
-	const userInput = await new Promise<string>((resolve) => {
-		rl.question("Enter your query: ", (answer) => {
-			resolve(answer);
-		});
-	});
-
-	// Execute the agent loop with user input
-	chatHistory = await executeAgentLoop(
-		userInput,
-		chatHistory,
-		llm_model,
-		false
-	).catch((error) => {
-		console.error("Error in main execution:", error);
-		// Close the readline interface
+	// Set up handler for ctrl-c
+	rl.on("SIGINT", () => {
+		console.log("\nExiting the chatbot...");
 		rl.close();
-		return chatHistory; // Return the original chat history on error
+		console.log("Final chatHistory output:\n", chatHistory);
+		printChatHistory(chatHistory);
+		process.exit(0);
 	});
 
-	// Close the readline interface
-	rl.close();
+	let continueChat = true;
 
-	// Log the chat history and print it using the function
-	console.log("Final response added to chat history:", chatHistory);
+	while (continueChat) {
+		// Prompt the user for input
+		const userInput = await new Promise<string>((resolve) => {
+			rl.question("\nEnter your query: ", (answer) => {
+				resolve(answer);
+			});
+		});
+
+		// Check if user wants to exit
+		if (userInput.toLowerCase() === "/exit") {
+			console.log("Exiting the chatbot...");
+			continueChat = false;
+			continue;
+		}
+
+		// Execute the agent loop with user input
+		try {
+			chatHistory = await executeAgentLoop(
+				userInput,
+				chatHistory,
+				llm_model,
+				false
+			);
+
+			// Print the chat history
+			// printChatHistory([chatHistory[chatHistory.length - 1]]); // Print only the last message
+			console.log(
+				`AI: ${chatHistory[
+					chatHistory.length - 1
+				].content.content.trim()}`
+			);
+		} catch (error) {
+			console.error("Error in execution:", error);
+		}
+	}
+
+	// Close the readline interface when done
+	rl.close();
+	console.log("\nExiting the chatbot...");
+	console.log("Final chatHistory output:\n", chatHistory);
 	printChatHistory(chatHistory);
 }
 
